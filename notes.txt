@@ -9,6 +9,7 @@ models:
 applicant
 submission
 testCase
+gradingBatch?
 user package
 
 report receiver frontend:
