@@ -1,0 +1,30 @@
+- general approach:
+    - write what I think the ideal solution is
+    - figure out which parts of that are testable
+    - write specs as though I were just writing good test coverage of my own app
+    - remove the solution code
+
+
+- two possible test approaches:
+    - make View depend on an implementation of Reader:
+        - provide one constructor of this class that takes no args and defaults to InputStreamReader(System.in)
+        - provide another constructor of this class that
+        - the student can only work with reader methods, and may not create a new instance of Scanner(System.in)
+        - maybe even write a View class that they can't modify, and instruct them to use its existing methods
+    - System.setIn & System.setOut
+
+- concerns about testing board printing:
+    - what restrictions/requirements can we put on them to make this possible?
+        - they must print the header row exactly as we specify
+        - they must print row labels exactly as we specify
+        - we could specify which characters they have to use for white & black stones, as well as empty spaces
+        - we could specify how much whitespace they need and where, though this seems a little ridiculous...
+            - even if we do, very brittle with respect to whitespace around newlines
+    - if we specify that they have to use certain exotic chars for stones, then we can check the number of instances of those chars
+
+- restrictions to make testing possible:
+    - You cannot change any source files
+    - You cannot use the Gomoku constructor, and you MUST use the static method createGomokuInstance instead
+    - You cannot modify the RandomPlayer seed in your app (though what would even happen badly if they did?)
+    - You must use the ☐, ⚫, and ⚪ characters when printing your board (though these don't line up well in monospace font, could find better alternative?)
+    - Your game must work with the keystroke sequences we publish

@@ -1,0 +1,26 @@
+
+
+
+
+
+report receiver backend:
+
+models:
+applicant
+submission
+testCase
+user package
+
+report receiver frontend:
+    - as admin,
+        - make an applicant w/ auto-generated creds
+        - see all applicants (w/ filtering options)
+        - export folder of zip files for ungraded applicants
+        - on a single applicant,
+            - see all submissions w/ test case statuses
+            - manually edit test case statuses
+    - as applicant,
+        - log in w/ creds given to me by admin
+        - reset my password?
+        - see my existing submissions w/ test case statuses
+        - make a new submission
