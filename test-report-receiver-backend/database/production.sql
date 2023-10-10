@@ -11,11 +11,12 @@ create table app_user (
     app_user_id int primary key auto_increment,
     username varchar(50) not null unique,
     password_hash varchar(2048),
-    enabled bit not null default(1),
+    enabled bit not null default(0),
     first_name text,
     last_name text,
     external_id text,
-    account_setup_token text
+    account_setup_token text,
+    has_been_setup boolean default false
 );
 
 create table app_role (

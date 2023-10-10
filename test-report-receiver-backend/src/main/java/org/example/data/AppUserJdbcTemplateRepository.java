@@ -77,6 +77,19 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
         updateRoles(user);
     }
 
+    @Override
+    public boolean accountSetup(AppUser appUser) {
+        final String sql = "update app_user set first_name = ?, last_name = ?, password_hash = ?, " +
+                "has_been_setup = true, enabled = true " +
+                "where account_setup_token = ? and has_been_setup = false";
+
+        return jdbcTemplate.update(sql,
+                appUser.getFirstName(),
+                appUser.getLastName(),
+                appUser.getPassword(),
+                appUser.getAccountSetupToken()) > 0;
+    }
+
     private void updateRoles(AppUser user) {
         // delete all roles, then re-add
         jdbcTemplate.update("delete from app_user_role where app_user_id = ?;", user.getAppUserId());

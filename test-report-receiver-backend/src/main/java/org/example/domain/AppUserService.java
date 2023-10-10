@@ -59,30 +59,38 @@ public class AppUserService implements UserDetailsService {
         return result;
     }
 
-    private Result<AppUser> validateForUpdate(String username, String password) {
-        Result<AppUser> result = new Result<>();
-        if (username == null || username.isBlank()) {
-            result.addErrorMessage("username is required", ResultType.INVALID);
-            return result;
+    public Result<AppUser> accountSetup(AppUser appUser) {
+        Result<AppUser> result = validateForAccountSetup(appUser);
+        if (result.isSuccess()) {
+            appUser.setPassword(encoder.encode(appUser.getPassword()));
+            boolean setupOutcome = repository.accountSetup(appUser);
+            if (!setupOutcome) {
+                result.addErrorMessage("Could not find user with accountSetupToken %s", ResultType.INVALID, appUser.getAccountSetupToken());
+            }
         }
+        return result;
+    }
 
-        if (password == null) {
+    private Result<AppUser> validateForAccountSetup(AppUser appUser) {
+        Result<AppUser> result = new Result<>();
+
+        if (appUser.getPassword() == null) {
             result.addErrorMessage("password is required", ResultType.INVALID);
             return result;
         }
 
-        if (username.length() > 50) {
-            result.addErrorMessage("username must be less than 50 characters", ResultType.INVALID);
-        }
-
-        if (!isValidPassword(password)) {
+        if (appUser.getPassword().length() < 8) {
             result.addErrorMessage("password must be at least 8 characters", ResultType.INVALID);
         }
 
-        return result;
-    }
+        if (appUser.getFirstName() == null || appUser.getFirstName().isBlank()) {
+            result.addErrorMessage("first name is required", ResultType.INVALID);
+        }
 
-    private boolean isValidPassword(String password) {
-        return password.length() >= 8;
+        if (appUser.getLastName() == null || appUser.getLastName().isBlank()) {
+            result.addErrorMessage("first name is required", ResultType.INVALID);
+        }
+
+        return result;
     }
 }

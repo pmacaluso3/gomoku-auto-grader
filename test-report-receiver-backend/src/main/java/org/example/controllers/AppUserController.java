@@ -11,10 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +59,17 @@ public class AppUserController {
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody Map<String, String> credentials) {
         Result<AppUser> result = service.create(credentials.get("username"));
+
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(result.getErrorMessages(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/account_setup")
+    public ResponseEntity<Object> accountSetup(@RequestBody AppUser appUser) {
+        Result<AppUser> result = service.accountSetup(appUser);
 
         if (result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);

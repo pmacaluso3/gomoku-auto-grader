@@ -16,9 +16,10 @@ public class AppUser implements UserDetails {
     private String password;
     private boolean enabled;
     private Collection<GrantedAuthority> authorities;
-
     private String externalId;
     private String accountSetupToken;
+    private String firstName;
+    private String lastName;
 
     public AppUser(int appUserId, String username, String password, boolean enabled, List<String> roles) {
         this.appUserId = appUserId;
@@ -35,6 +36,8 @@ public class AppUser implements UserDetails {
         this.accountSetupToken = accountSetupToken;
         this.authorities = convertRolesToAuthorities(roles);
     }
+
+    public AppUser(){}
 
     private static Collection<GrantedAuthority> convertRolesToAuthorities(List<String> roles) {
         return roles.stream()
@@ -91,5 +94,25 @@ public class AppUser implements UserDetails {
 
     public String getAccountSetupToken() {
         return accountSetupToken;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

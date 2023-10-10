@@ -30,7 +30,7 @@ public class SecurityConfig {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/users/authenticate").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/users").hasAuthority("ADMIN")
-
+                .antMatchers(HttpMethod.PUT, "/api/users/account_setup").permitAll()
 
                 .antMatchers("/**").denyAll()
                 .and()

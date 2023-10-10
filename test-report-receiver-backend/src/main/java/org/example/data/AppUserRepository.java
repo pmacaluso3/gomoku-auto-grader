@@ -12,4 +12,6 @@ public interface AppUserRepository {
 
     @Transactional
     void update(AppUser user);
+
+    boolean accountSetup(AppUser appUser);
 }
