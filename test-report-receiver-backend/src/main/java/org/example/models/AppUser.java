@@ -20,9 +20,24 @@ public class AppUser implements UserDetails {
     private String accountSetupToken;
     private String firstName;
     private String lastName;
+    private boolean hasBeenSetup;
 
-    public AppUser(int appUserId, String username, String password, boolean enabled, List<String> roles) {
+    public AppUser(int appUserId,
+                   String firstName,
+                   String lastName,
+                   String externalId,
+                   String accountSetupToken,
+                   boolean hasBeenSetup,
+                   String username,
+                   String password,
+                   boolean enabled,
+                   List<String> roles) {
         this.appUserId = appUserId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.externalId = externalId;
+        this.accountSetupToken = accountSetupToken;
+        this.hasBeenSetup = hasBeenSetup;
         this.username = username;
         this.password = password;
         this.enabled = enabled;

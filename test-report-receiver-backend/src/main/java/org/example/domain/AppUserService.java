@@ -43,6 +43,10 @@ public class AppUserService implements UserDetailsService {
         return appUser;
     }
 
+    public List<AppUser> findAllApplicants() {
+        return repository.findAllApplicants();
+    }
+
     public Result<AppUser> create(String username) {
         String externalId = randomStringGenerator.generateRandomString();
         String account_setup_token = randomStringGenerator.generateRandomString();

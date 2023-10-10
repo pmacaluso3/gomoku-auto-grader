@@ -27,13 +27,23 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
     public AppUser findByUsername(String username) {
         List<String> roles = getRolesByUsername(username);
 
-        final String sql = "select app_user_id, username, password_hash, enabled "
+        final String sql = "select * "
                 + "from app_user "
                 + "where username = ?;";
 
         return jdbcTemplate.query(sql, new AppUserMapper(roles), username)
                 .stream()
                 .findFirst().orElse(null);
+    }
+
+    @Override
+    public List<AppUser> findAllApplicants() {
+        final String sql = "select * " +
+                "from app_user au join app_user_role aur on au.app_user_id = aur.app_user_id " +
+                "join app_role ar on aur.app_role_id = ar.app_role_id " +
+                "where ar.name = 'APPLICANT'";
+
+        return jdbcTemplate.query(sql, new AppUserMapper(List.of("APPLICANT")));
     }
 
     @Override

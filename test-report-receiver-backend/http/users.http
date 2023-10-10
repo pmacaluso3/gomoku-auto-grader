@@ -13,7 +13,7 @@ Content-Type: application/json
 
 POST {{base_url}}
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtIiwic3ViIjoiYWRtaW5AZGV2LTEwLmNvbSIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJleHAiOjE2OTY5NTkyMzF9.I-lMg2A6yT9SUyGTajF2EyCyXOTDKs2MpR7HyXQwrxE
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtIiwic3ViIjoiYWRtaW5AZGV2LTEwLmNvbSIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJleHAiOjE2OTY5NjAxMDN9.N32y89ZnfJR0scJj0Ef7t-mvtuVQg9UeG_-bcmECpqo
 
 {
     "username": "known-working-student-submission@gmail.com"
@@ -22,6 +22,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtI
 ###
 
 GET {{base_url}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtIiwic3ViIjoiYWRtaW5AZGV2LTEwLmNvbSIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJleHAiOjE2OTY5NjAxMDN9.N32y89ZnfJR0scJj0Ef7t-mvtuVQg9UeG_-bcmECpqo
 
 ###
 
@@ -29,8 +30,8 @@ PUT {{base_url}}/account_setup
 Content-Type: application/json
 
 {
-    "firstName": "Test",
-    "lastName": "Applicant",
+    "firstName": "Test!",
+    "lastName": "Applicant!",
     "password": "password",
-    "accountSetupToken": "HRGYsxAjyIIlEiijxDTx"
+    "accountSetupToken": "LkNAtaANzSKLFYcHIoDN"
 }
