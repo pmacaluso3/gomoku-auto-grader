@@ -3,6 +3,8 @@
 
 
 
+
+
 report receiver backend:
 
 models:
@@ -14,14 +16,16 @@ user package
 
 report receiver frontend:
     - as admin,
-        - make an applicant w/ auto-generated creds
+        x make an applicant w/ auto-generated creds
+            - maybe bulk create?
         - see all applicants (w/ filtering options)
+        - send emails w/ account-setup links
         - export folder of zip files for ungraded applicants
         - on a single applicant,
             - see all submissions w/ test case statuses
             - manually edit test case statuses
     - as applicant,
-        - log in w/ creds given to me by admin
-        - reset my password?
+        - log in w/ account-setup link given to me by admin
+        - set my password, name, etc
         - see my existing submissions w/ test case statuses
         - make a new submission

@@ -10,12 +10,12 @@ drop table if exists app_user;
 create table app_user (
     app_user_id int primary key auto_increment,
     username varchar(50) not null unique,
-    password_hash varchar(2048) not null,
+    password_hash varchar(2048),
     enabled bit not null default(1),
     first_name text,
     last_name text,
-    email text,
-    external_id text
+    external_id text,
+    account_setup_token text
 );
 
 create table app_role (
@@ -34,6 +34,12 @@ create table app_user_role (
     constraint fk_app_user_role_role_id
         foreign key (app_role_id)
         references app_role(app_role_id)
+);
+
+create table grading_batch (
+    grading_batch_id int primary key auto_increment,
+    created_at timestamp,
+    graded_at timestamp
 );
 
 create table submission (
@@ -56,14 +62,18 @@ create table test_case_outcome (
     success boolean not null,
     description text,
     board_state text,
-    submission_id int not null,
         constraint fk_test_case_outcome_submission_id
                 foreign key (submission_id)
                 references submission(submission_id)
 );
 
-create table grading_batch (
-    grading_batch_id int primary key auto_increment,
-    created_at timestamp,
-    graded_at timestamp
-);
+insert into app_role (`name`) values
+    ('ADMIN'),
+    ('APPLICANT');
+
+
+insert into app_user (username, password_hash, enabled)
+    values
+    ('admin@dev-10.com', '$2a$10$WZPggZQdJ7li5N/x1AwQ3eJo73pzV2803CUoIaGJ4e965pW49c0Y2', 1);
+
+insert into app_user_role (app_user_id, app_role_id) values (1, 1);

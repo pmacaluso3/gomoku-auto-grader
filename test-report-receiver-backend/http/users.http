@@ -1,0 +1,20 @@
+
+@base_url = http://localhost:8080/api/users
+
+POST {{base_url}}/authenticate
+Content-Type: application/json
+
+{
+    "username": "admin@dev-10.com",
+    "password": "admin"
+}
+
+###
+
+POST {{base_url}}
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtIiwic3ViIjoiYWRtaW5AZGV2LTEwLmNvbSIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJleHAiOjE2OTY5NTYwNDV9.7FLPeSjWpKoYvgSiwx5X0Q2rjlr43nZ-sda75Ho04Lc
+
+{
+    "username": "known-working-student-submission@gmail.com"
+}
