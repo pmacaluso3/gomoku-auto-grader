@@ -1,4 +1,7 @@
 @base_url = http://localhost:8080/api/users
+@applicant_token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtIiwic3ViIjoia25vd24td29ya2luZy1zdHVkZW50LXN1Ym1pc3Npb25AZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOiJBUFBMSUNBTlQiLCJleHAiOjE2OTc0ODA3NjV9.u8qij2NCZgrHzDfkLVNXIl1GI5GMR9ORVeHBw912bkE
+@admin_token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtIiwic3ViIjoiYWRtaW5AZGV2LTEwLmNvbSIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJleHAiOjE2OTc0ODA3NDJ9.SO8kkATXdWz2oBWMr_F0Bg8HIPXeTbHuZZkvFshDJYQ
+@account_setup_token = ioVXJASkFGveyiPGpkgI
 
 POST {{base_url}}/authenticate
 Content-Type: application/json
@@ -12,7 +15,7 @@ Content-Type: application/json
 
 POST {{base_url}}
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtIiwic3ViIjoiYWRtaW5AZGV2LTEwLmNvbSIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJleHAiOjE2OTc0Nzk3Nzl9.VNmme-Dcpc5nW-4pW4Az2AxRTs-eEWlnAgvWghwHD-0
+Authorization: Bearer {{admin_token}}
 
 {
     "username": "known-working-student-submission@gmail.com"
@@ -21,7 +24,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtI
 ###
 
 GET {{base_url}}
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtIiwic3ViIjoiYWRtaW5AZGV2LTEwLmNvbSIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJleHAiOjE2OTc0Nzk3Nzl9.VNmme-Dcpc5nW-4pW4Az2AxRTs-eEWlnAgvWghwHD-0
+Authorization: Bearer {{admin_token}}
 
 ###
 
@@ -32,7 +35,7 @@ Content-Type: application/json
     "firstName": "Test!",
     "lastName": "Applicant!",
     "password": "password",
-    "accountSetupToken": "sSRaskOdsHkYlsyqFaqw"
+    "accountSetupToken": "{{account_setup_token}}"
 }
 
 ###

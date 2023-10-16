@@ -37,10 +37,13 @@ public class SubmissionService {
         return result;
     }
 
-//    public Result<Submission> create(Submission submission) {
-//        Result<Submission> result = validate(submission);
-//
-//    }
+    public Result<Submission> create(Submission submission) {
+        Result<Submission> result = validate(submission);
+        if (result.isSuccess()) {
+            result.setPayload(repository.create(submission));
+        }
+        return result;
+    }
 
     private Result<Submission> validate(Submission submission) {
         Result<Submission> result = new Result<>();

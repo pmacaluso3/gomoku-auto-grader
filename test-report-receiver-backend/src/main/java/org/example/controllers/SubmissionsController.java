@@ -6,10 +6,10 @@ import org.example.domain.Result;
 import org.example.domain.SubmissionService;
 import org.example.models.AppUser;
 import org.example.models.Submission;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -37,11 +37,13 @@ public class SubmissionsController {
         return ControllerHelper.convertResultToHttpResponse(result);
     }
 
-//    @PostMapping
-//    public ResponseEntity<Object> create(@RequestBody Submission submission) {
+    @PostMapping
+    public ResponseEntity<Object> create(@RequestParam("file") File) {
 //        submission.setAppUserId(getAuthorizedUserId());
-////        Result<Submission>
-//    }
+//        Result<Submission> result = service.create(submission);
+//        return ControllerHelper.convertResultToHttpResponse(result);
+        return null;
+    }
 
     private String getAuthorizedUsername() {
         return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

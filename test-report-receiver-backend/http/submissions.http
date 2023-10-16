@@ -1,9 +1,22 @@
 @base_url = http://localhost:8080/api/submissions
+@applicant_token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtIiwic3ViIjoia25vd24td29ya2luZy1zdHVkZW50LXN1Ym1pc3Npb25AZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOiJBUFBMSUNBTlQiLCJleHAiOjE2OTc0ODEyMTd9.r2x8-Rgwn0AAPj8jMAcgv-ORjivqFWRAyRkETEPE-m4
+@admin_token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtIiwic3ViIjoiYWRtaW5AZGV2LTEwLmNvbSIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJleHAiOjE2OTc0ODA3NDJ9.SO8kkATXdWz2oBWMr_F0Bg8HIPXeTbHuZZkvFshDJYQ
 
 GET {{base_url}}/all
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtIiwic3ViIjoiYWRtaW5AZGV2LTEwLmNvbSIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJleHAiOjE2OTY5NjEyNjR9.SBJRekg8U6IV8kYeBwMXQDvVfa08j6vnYvaQi-EwAHA
+Authorization: Bearer {{admin_token}}
 
 ###
 
 GET {{base_url}}/mine
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtIiwic3ViIjoia25vd24td29ya2luZy1zdHVkZW50LXN1Ym1pc3Npb25AZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOiJBUFBMSUNBTlQiLCJleHAiOjE2OTc0ODAxMTR9.ZIE2uTj3uIo5ZDjAx1xIjptSh6EeBchz-WPXMDyqkV4
+Authorization: Bearer {{applicant_token}}
+
+###
+
+POST {{base_url}}
+Authorization: Bearer {{applicant_token}}
+ 
+--boundary
+Content-Disposition: form-data; name="zipFile"; filename="known-working-student-submission.zip"
+Content-Type: application/zip
+
+< C:\Users\PeterMacaluso\dev-10\auto-grader-local-script\applicant-zips\known-working-student-submission.zip
