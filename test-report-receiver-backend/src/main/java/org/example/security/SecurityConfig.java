@@ -29,9 +29,11 @@ public class SecurityConfig {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/users/authenticate").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/users").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/users").hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/users/account_setup").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/users").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/users").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/submissions/all").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/submissions/mine").hasAnyAuthority("APPLICANT")
 
                 .antMatchers("/**").denyAll()
                 .and()

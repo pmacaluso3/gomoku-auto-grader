@@ -1,0 +1,9 @@
+@base_url = http://localhost:8080/api/submissions
+
+GET {{base_url}}/all
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtIiwic3ViIjoiYWRtaW5AZGV2LTEwLmNvbSIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJleHAiOjE2OTY5NjEyNjR9.SBJRekg8U6IV8kYeBwMXQDvVfa08j6vnYvaQi-EwAHA
+
+###
+
+GET {{base_url}}/mine
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtIiwic3ViIjoia25vd24td29ya2luZy1zdHVkZW50LXN1Ym1pc3Npb25AZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOiJBUFBMSUNBTlQiLCJleHAiOjE2OTc0ODAxMTR9.ZIE2uTj3uIo5ZDjAx1xIjptSh6EeBchz-WPXMDyqkV4

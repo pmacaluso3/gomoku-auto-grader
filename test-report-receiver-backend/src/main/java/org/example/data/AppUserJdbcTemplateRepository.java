@@ -49,7 +49,6 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
     @Override
     @Transactional
     public AppUser create(AppUser user) {
-
         final String sql = "insert into app_user (username, external_id, account_setup_token) values (?, ?, ?);";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();

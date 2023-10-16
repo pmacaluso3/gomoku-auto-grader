@@ -65,22 +65,12 @@ public class AppUserController {
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody Map<String, String> credentials) {
         Result<AppUser> result = service.create(credentials.get("username"));
-
-        if (result.isSuccess()) {
-            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(result.getErrorMessages(), HttpStatus.BAD_REQUEST);
-        }
+        return ControllerHelper.convertResultToHttpResponse(result);
     }
 
     @PutMapping("/account_setup")
     public ResponseEntity<Object> accountSetup(@RequestBody AppUser appUser) {
         Result<AppUser> result = service.accountSetup(appUser);
-
-        if (result.isSuccess()) {
-            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(result.getErrorMessages(), HttpStatus.BAD_REQUEST);
-        }
+        return ControllerHelper.convertResultToHttpResponse(result);
     }
 }

@@ -27,7 +27,7 @@ fs.readdir(applicantZipsFolder, (error, files) => {
                 const copyTo = `${unzippedSubmissionsFolder}/${file.replace(".zip", "")}`
                 const unzipTo = `${copyTo}/${unzipDestination}`
                 run(`Copy-Item -R ${testSuiteFolder} ${copyTo}`)
-                // run(`Expand-Archive -Path ${file} -DestinationPath ${unzipTo}`)
+                run(`Expand-Archive -Path ${file} -DestinationPath ${unzipTo}`)
                 // in this current submission folder that we're iterating through:
                 // set env vars: backend url, applicant id, submission id, gradingBatch id?, basic auth creds for report backend? 
                 // reload maven dependencies
