@@ -13,11 +13,52 @@ const makeRequest = (route, method, body, token) => {
     })
 }
 
+const get = (route, token) => {
+    return makeRequest(route, "GET", null, token)
+}
+
 const post = (route, body, token) => {
     return makeRequest(route, "POST", body, token)
 }
 
+const put = (route, body, token) => {
+    return makeRequest(route, "PUT", body, token)
+}
+
+const doDelete = (route, token) => {
+    return makeRequest(route, "DELETE", null, token)
+}
+
+const buildAuthRequests = (token) => {
+    const authGet = (route) => {
+        return makeRequest(route, "GET", null, token)
+    }
+    
+    const authPost = (route, body) => {
+        return makeRequest(route, "POST", body, token)
+    }
+    
+    const authPut = (route, body) => {
+        return makeRequest(route, "PUT", body, token)
+    }
+    
+    const authDelete = (route) => {
+        return makeRequest(route, "DELETE", null, token)
+    }
+
+    return {
+        authGet,
+        authPost,
+        authPut,
+        authDelete
+    }
+}
+
 export {
     makeRequest,
-    post
+    get,
+    post,
+    put,
+    doDelete,
+    buildAuthRequests
 }

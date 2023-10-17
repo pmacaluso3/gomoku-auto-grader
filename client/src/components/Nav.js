@@ -7,7 +7,7 @@ import spaceOut from "../utils/spaceOut"
 
 const Nav = () => {
     const userObj = useContext(UserContext)
-    console.log(userObj);
+
     return (
         <>
             { userObj && userObj.user &&

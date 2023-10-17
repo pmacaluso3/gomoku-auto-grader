@@ -6,10 +6,11 @@ import './App.css';
 import Login from "./pages/Login";
 import Nav from "./components/Nav";
 import { loggedIn, loggedOut } from "./utils/protectedRoute"
-import { post } from "./utils/http"
+import { buildAuthRequests, post } from "./utils/http"
 import UserContext from "./contexts/UserContext"
 import Home from "./pages/Home";
 import CreateApplicant from "./pages/CreateApplicant";
+import SetupAccount from "./pages/SetupAccount";
 
 
 function App() {
@@ -24,11 +25,12 @@ function App() {
     setUser(fullUser)
   }
 
-  const logout = () => setUser(null)
-
-  const authPost = (route, body) => {
-    return post(route, body, user.token)
+  const logout = () => {
+    localStorage.removeItem(LOCAL_STORAGE_KEY)
+    setUser(null)
   }
+
+  const authRequests = user && buildAuthRequests(user.token)
 
   const attemptRestoreSession = () => {
     const userFromLocalStorage = localStorage.getItem(LOCAL_STORAGE_KEY)
@@ -42,7 +44,7 @@ function App() {
   if (!hasAttemptedRestoreSession) { return null }
 
   return (
-    <UserContext.Provider value={{ user, logout, login, authPost }}>
+    <UserContext.Provider value={{ user, logout, login, ...authRequests }}>
       <BrowserRouter>
         <Nav />
         <h1>Applicant Submissions</h1>
@@ -52,6 +54,7 @@ function App() {
 
           {/* loged out only */}
           <Route path="/login" element={loggedOut(<Login />, user)} />
+          <Route path="/setupAccount/:accountSetupToken" element={<SetupAccount />}/>
 
           {/* loged in admin only */}
           <Route
@@ -60,6 +63,7 @@ function App() {
           />
 
           {/* loged in applicant only */}
+          
         </Routes>
       </BrowserRouter>    
     </UserContext.Provider>

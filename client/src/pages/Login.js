@@ -31,8 +31,13 @@ const Login = () => {
             <h2>Log In</h2>
             <Errors errors={errors} />
             <form onSubmit={handleLogin}>
-                <Input name="username" formState={formState} setter={setFormState} />
-                <Input type="password" name="password" formState={formState} setter={setFormState} />
+                {Object.keys(DEFAULT_FORM)
+                .map(key => <Input
+                    key={key}
+                    name={key}
+                    formState={formState}
+                    setter={setFormState}
+                />)}
                 <button type="submit">Log In</button>
             </form>
         </>

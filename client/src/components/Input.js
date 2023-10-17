@@ -2,6 +2,7 @@ import humanize from "../utils/humanize"
 
 const Input = ({ name, type, formState, setter }) => {
     type = type || "text"
+    if (name === "password") { type = "password" }
 
     const onChange = (event) => {
         setter({ ...formState, [event.target.name]: event.target.value })
