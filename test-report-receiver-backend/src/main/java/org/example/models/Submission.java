@@ -1,6 +1,7 @@
 package org.example.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialException;
@@ -65,6 +66,7 @@ public class Submission {
         return zipFile;
     }
 
+    @JsonProperty
     public void setZipFile(Blob zipFile) {
         this.zipFile = zipFile;
     }

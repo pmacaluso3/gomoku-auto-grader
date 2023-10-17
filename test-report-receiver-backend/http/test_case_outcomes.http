@@ -1,0 +1,26 @@
+@base_url = http://localhost:8080/api/test_case_outcomes
+@admin_token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhcHBsaWNhbnQtc3VibWlzc2lvbnMiLCJzdWIiOiJhZG1pbkBkZXYtMTAuY29tIiwiYXV0aG9yaXRpZXMiOiJBRE1JTiIsImV4cCI6MTY5NzU4NjQyNX0.yJfyRZyZDMK3RNeWQOueRIpqDMdP65KJXs8M4I7f0no
+
+POST {{base_url}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{admin_token}}
+
+{
+    "submissionId": 1,
+    "success": false,
+    "description": "did not work",
+    "boardState": "X O X"
+}
+
+###
+
+PUT {{base_url}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{admin_token}}
+
+{
+    "testCaseOutcomeId": 3,
+    "success": true
+}

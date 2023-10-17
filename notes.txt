@@ -1,9 +1,7 @@
 
 current:
-    - can applicant login w/ blank password before setup?
-        - should service tell them they need to go to setup?
-    - what happens if applicant tries to setup a second time?
-        - maybe it's ok to let them use this to change their password etc
+    - when applicant logs in w/ blank password before setup, should service tell them they need to go to setup?
+    - what happens if applicant tries to setup a second time? maybe it's ok to let them use this to change their password
 
 
 report receiver backend:

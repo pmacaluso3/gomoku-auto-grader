@@ -62,6 +62,7 @@ create table test_case_outcome (
     test_case_outcome_id int primary key auto_increment,
     submission_id int not null,
     success boolean not null,
+    has_been_manually_edited boolean not null default false,
     description text,
     board_state text,
         constraint fk_test_case_outcome_submission_id
@@ -80,3 +81,4 @@ insert into app_user (username, password_hash, enabled)
 
 insert into app_user_role (app_user_id, app_role_id) values (1, 1);
 
+select * from test_case_outcome

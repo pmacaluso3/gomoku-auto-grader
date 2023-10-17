@@ -52,7 +52,7 @@ public class SubmissionJdbcTemplateRepository implements SubmissionRepository {
             return null;
         }
 
-        submission.setAppUserId(keyHolder.getKey().intValue());
+        submission.setSubmissionId(keyHolder.getKey().intValue());
 
         return submission;
     }

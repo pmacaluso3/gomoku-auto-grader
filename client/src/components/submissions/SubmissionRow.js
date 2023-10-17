@@ -1,7 +1,7 @@
 const SubmissionRow = ({ submission }) => {
     return (
         <tr>
-            <td>{submission.submittedAt}</td>
+            <td>{submission.createdAt}</td>
             <td>{submission.gradedAt}</td>
             <td></td>
             <td></td>
