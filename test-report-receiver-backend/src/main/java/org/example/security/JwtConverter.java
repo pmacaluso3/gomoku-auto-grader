@@ -20,7 +20,7 @@ public class JwtConverter {
     // 1. Signing key
     private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     // 2. "Configurable" constants
-    private final String ISSUER = "personal-solar-farm";
+    private final String ISSUER = "applicant-submissions";
     private final int EXPIRATION_MINUTES = 15;
     private final int EXPIRATION_MILLIS = EXPIRATION_MINUTES * 60 * 1000;
 

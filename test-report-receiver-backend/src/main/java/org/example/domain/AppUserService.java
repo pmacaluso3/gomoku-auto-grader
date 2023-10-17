@@ -48,10 +48,15 @@ public class AppUserService implements UserDetailsService {
     }
 
     public Result<AppUser> create(String username) {
+        Result<AppUser> result = new Result<>();
+        if (username.isBlank()) {
+            result.addErrorMessage("Username cannot be blank", ResultType.INVALID);
+            return result;
+        }
+
         String externalId = randomStringGenerator.generateRandomString();
         String account_setup_token = randomStringGenerator.generateRandomString();
         AppUser appUser = new AppUser(username, externalId, account_setup_token, DEFAULT_ROLES);
-        Result<AppUser> result = new Result<>();
 
         try {
             appUser = repository.create(appUser);

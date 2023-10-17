@@ -37,13 +37,13 @@ public class SubmissionsController {
         return ControllerHelper.convertResultToHttpResponse(result);
     }
 
-    @PostMapping
-    public ResponseEntity<Object> create(@RequestParam("file") File) {
-//        submission.setAppUserId(getAuthorizedUserId());
-//        Result<Submission> result = service.create(submission);
-//        return ControllerHelper.convertResultToHttpResponse(result);
-        return null;
-    }
+//    @PostMapping
+//    public ResponseEntity<Object> create(@RequestParam("file") MultipartFile file) {
+////        submission.setAppUserId(getAuthorizedUserId());
+////        Result<Submission> result = service.create(submission);
+////        return ControllerHelper.convertResultToHttpResponse(result);
+//        return null;
+//    }
 
     private String getAuthorizedUsername() {
         return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
