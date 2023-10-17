@@ -5,13 +5,25 @@ const Input = ({ name, type, formState, setter }) => {
     if (name === "password") { type = "password" }
 
     const onChange = (event) => {
-        setter({ ...formState, [event.target.name]: event.target.value })
+        const value = type === "file" ? event.target.files[0] : event.target.value
+
+        setter({ ...formState, [event.target.name]: value })
+    }
+
+    const inputProps = {
+        type,
+        name,
+        onChange,
+        id: `${name}-input`,
+    }
+    if (type !== "file") {
+        inputProps.value = formState[name]
     }
 
     return (
         <fieldset className="form-group">
             <label htmlFor={`${name}-input`}>{humanize(name)}:</label>
-            <input type={type} id={`${name}-input`} name={name} value={formState[name]} onChange={onChange} />
+            <input { ...inputProps } />
         </fieldset>
 )}
 

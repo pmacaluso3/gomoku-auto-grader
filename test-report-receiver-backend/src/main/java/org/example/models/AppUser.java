@@ -1,5 +1,6 @@
 package org.example.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -65,6 +66,7 @@ public class AppUser implements UserDetails {
         return new ArrayList<>(authorities);
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return password;

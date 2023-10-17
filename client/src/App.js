@@ -11,6 +11,8 @@ import UserContext from "./contexts/UserContext"
 import Home from "./pages/Home";
 import CreateApplicant from "./pages/CreateApplicant";
 import SetupAccount from "./pages/SetupAccount";
+import CreateSubmission from "./pages/CreateSubmission"
+import MySubmissions from "./pages/MySubmissions"
 
 
 function App() {
@@ -30,7 +32,7 @@ function App() {
     setUser(null)
   }
 
-  const authRequests = user && buildAuthRequests(user.token)
+  const authRequests = user && buildAuthRequests(user.token, logout)
 
   const attemptRestoreSession = () => {
     const userFromLocalStorage = localStorage.getItem(LOCAL_STORAGE_KEY)
@@ -63,7 +65,14 @@ function App() {
           />
 
           {/* loged in applicant only */}
-          
+          <Route
+            path="/createSubmission"
+            element={loggedIn(<CreateSubmission />, user, "APPLICANT")}
+          />
+          <Route
+            path="/mySubmissions"
+            element={loggedIn(<MySubmissions />, user, "APPLICANT")}
+          />
         </Routes>
       </BrowserRouter>    
     </UserContext.Provider>

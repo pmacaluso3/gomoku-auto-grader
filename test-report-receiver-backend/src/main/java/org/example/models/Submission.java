@@ -1,6 +1,12 @@
 package org.example.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.sql.rowset.serial.SerialException;
+import java.io.IOException;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class Submission {
@@ -18,6 +24,22 @@ public class Submission {
         this.gradingBatchId = gradingBatchId;
         this.createdAt = createdAt;
         this.gradedAt = gradedAt;
+    }
+
+    public Submission(int appUserId, MultipartFile zipFile) {
+        this.appUserId = appUserId;
+        byte[] bytes = new byte[0];
+        try {
+            bytes = zipFile.getBytes();
+            Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+            this.zipFile = blob;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (SerialException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Submission() {};
@@ -38,6 +60,7 @@ public class Submission {
         this.appUserId = appUserId;
     }
 
+    @JsonIgnore
     public Blob getZipFile() {
         return zipFile;
     }

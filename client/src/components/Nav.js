@@ -28,9 +28,11 @@ const Nav = () => {
                     </span>,
 
                     // logged in admin only
-                    <LoggedInLink to="/createApplicant" text="Create Applicant" requiredRole={"ADMIN"} />
+                    <LoggedInLink to="/createApplicant" text="Create Applicant" requiredRole="ADMIN" />,
 
                     // logged in applicant only
+                    <LoggedInLink to="/createSubmission" text="Create Submission" requiredRole="APPLICANT" />,
+                    <LoggedInLink to="/mySubmissions" text="My Submissions" requiredRole="APPLICANT" />,
                 )}
             </nav>
         </>

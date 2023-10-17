@@ -11,6 +11,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -37,13 +40,12 @@ public class SubmissionsController {
         return ControllerHelper.convertResultToHttpResponse(result);
     }
 
-//    @PostMapping
-//    public ResponseEntity<Object> create(@RequestParam("file") MultipartFile file) {
-////        submission.setAppUserId(getAuthorizedUserId());
-////        Result<Submission> result = service.create(submission);
-////        return ControllerHelper.convertResultToHttpResponse(result);
-//        return null;
-//    }
+    @PostMapping
+    public ResponseEntity<Object> create(@RequestPart("zipFile") MultipartFile zipFile) throws IOException, SQLException {
+        Submission submission = new Submission(getAuthorizedUserId(), zipFile);
+        Result<Submission> result = service.create(submission);
+        return ControllerHelper.convertResultToHttpResponse(result);
+    }
 
     private String getAuthorizedUsername() {
         return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

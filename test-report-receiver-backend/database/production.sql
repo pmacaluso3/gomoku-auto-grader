@@ -46,6 +46,7 @@ create table grading_batch (
 create table submission (
     submission_id int primary key auto_increment,
     app_user_id int not null,
+    zip_file blob,
     grading_batch_id int,
     created_at timestamp,
     graded_at timestamp,
@@ -75,6 +76,7 @@ insert into app_role (`name`) values
 
 insert into app_user (username, password_hash, enabled)
     values
-    ('admin@dev-10.com', '$2a$10$WZPggZQdJ7li5N/x1AwQ3eJo73pzV2803CUoIaGJ4e965pW49c0Y2', 1);
+    ('admin@dev-10.com', '$2a$10$WZPggZQdJ7li5N/x1AwQ3eJo73pzV2803CUoIaGJ4e965pW49c0Y2', 1); -- pw == admin
 
 insert into app_user_role (app_user_id, app_role_id) values (1, 1);
+

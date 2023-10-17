@@ -28,7 +28,8 @@ public class SubmissionJdbcTemplateRepository implements SubmissionRepository {
 
     @Override
     public List<Submission> findByApplicantUsername(String username) {
-        String sql = "select s.* from submission s " +
+        String sql = "select s." +
+                "* from submission s " +
                 "join app_user au on s.app_user_id = au.app_user_id " +
                 "where au.username = ?";
 
