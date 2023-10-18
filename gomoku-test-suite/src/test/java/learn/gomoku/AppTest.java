@@ -28,7 +28,7 @@ class AppTest {
 
     private final char WHITE_STONE_CHAR = '⚪';
 
-    private final TestResultReportClient reportClient = new TestResultReportClient("");
+    private final TestResultReportClient reportClient = new TestResultReportClient();
 
     @Nested
     class PlayerSelection {

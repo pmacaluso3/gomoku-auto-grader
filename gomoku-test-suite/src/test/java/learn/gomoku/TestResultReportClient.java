@@ -10,7 +10,8 @@ import java.io.IOException;
 
 public class TestResultReportClient {
 
-    private final String key;
+    private final String token;
+    private final String apiUrl;
 
 
     ObjectMapper mapper = new ObjectMapper();
@@ -18,8 +19,9 @@ public class TestResultReportClient {
     OkHttpClient client = new OkHttpClient();
 
 
-    public TestResultReportClient(String key) {
-        this.key = key;
+    public TestResultReportClient() {
+        this.token = loadRequiredEnvVar("ADMIN_TOKEN");
+        this.apiUrl = loadRequiredEnvVar("API_URL");
     }
 
     public void report(boolean success) {
@@ -47,5 +49,19 @@ public class TestResultReportClient {
         } catch (IOException e) {
             System.out.println(e);
         }
+    }
+
+    private class EnvironmentVariableNotFoundException extends RuntimeException {
+        private EnvironmentVariableNotFoundException(String message) {
+            super(message);
+        }
+    }
+
+    private String loadRequiredEnvVar(String key) {
+        String value = System.getProperty(key);
+        if (value == null || value.isBlank()) {
+            throw new EnvironmentVariableNotFoundException(String.format("Environment variable %s not found", key));
+        }
+        return value;
     }
 }

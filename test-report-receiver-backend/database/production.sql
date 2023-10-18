@@ -81,4 +81,16 @@ insert into app_user (username, password_hash, enabled)
 
 insert into app_user_role (app_user_id, app_role_id) values (1, 1);
 
-select * from test_case_outcome
+
+
+
+
+
+
+
+
+
+
+
+
+

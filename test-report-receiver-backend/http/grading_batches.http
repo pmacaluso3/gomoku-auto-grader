@@ -1,0 +1,17 @@
+@base_url = http://localhost:8080/api/grading_batches
+@admin_token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhcHBsaWNhbnQtc3VibWlzc2lvbnMiLCJzdWIiOiJhZG1pbkBkZXYtMTAuY29tIiwiYXV0aG9yaXRpZXMiOiJBRE1JTiIsImV4cCI6MTY5NzY2NjkzNX0.OF2GPdmDlCWU62oR2eEH_eXo_-ob3eOTwzGTu3Ur2c4
+
+GET {{base_url}}
+Authorization: Bearer {{admin_token}}
+
+###
+
+GET {{base_url}}/1
+Authorization: Bearer {{admin_token}}
+
+###
+
+POST {{base_url}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{admin_token}}

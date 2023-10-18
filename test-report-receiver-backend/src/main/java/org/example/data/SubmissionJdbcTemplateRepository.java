@@ -37,6 +37,12 @@ public class SubmissionJdbcTemplateRepository implements SubmissionRepository {
     }
 
     @Override
+    public List<Submission> findByGradingBatchId(int id) {
+        String sql = "select * from submission where grading_batch_id = ?;";
+        return jdbcTemplate.query(sql, new SubmissionMapper(), id);
+    }
+
+    @Override
     public Submission create(Submission submission) {
         final String sql = "insert into submission (app_user_id, zip_file, created_at) values (?, ?, current_timestamp());";
 

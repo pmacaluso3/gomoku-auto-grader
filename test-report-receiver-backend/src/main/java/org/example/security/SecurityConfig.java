@@ -37,6 +37,9 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST, "/api/submissions").hasAnyAuthority("APPLICANT")
                 .antMatchers(HttpMethod.POST, "/api/test_case_outcomes").hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/test_case_outcomes").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/grading_batches").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/grading_batches/*").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/grading_batches").hasAnyAuthority("ADMIN")
 
                 .antMatchers("/**").denyAll()
                 .and()

@@ -1,6 +1,10 @@
+require("dotenv").config()
 const fs = require("fs")
 const { exec } = require("child_process")
 const { stderr } = require("process")
+const backendUrl = process.env.BACKEND_URL
+const username = process.env.ADMIN_USERNAME
+const password = process.env.ADMIN_PASSWORD
 const applicantZipsFolder = `${__dirname}/applicant-zips`
 const unzippedSubmissionsFolder = `${__dirname}/unzipped-submissions`
 const testSuiteFolder = `${__dirname}/gomoku-test-suite`
@@ -17,22 +21,53 @@ const run = (cmd) => {
     })
 }
 
-fs.readdir(applicantZipsFolder, (error, files) => {
+const handleZipFile = ({ file, token, gradingBatchId }) => {
+    if (!file.endsWith(".zip")) { return }
+
+    const copyTo = `${unzippedSubmissionsFolder}/${file.replace(".zip", "")}`
+    const unzipTo = `${copyTo}/${unzipDestination}`
+    run(`Copy-Item -R ${testSuiteFolder} ${copyTo}`)
+    run(`Expand-Archive -Path ${file} -DestinationPath ${unzipTo}`)
+    // in this current submission folder that we're iterating through:
+    // set env vars: token, backend url, submission id, gradingBatch id
+    // reload maven dependencies
+    // run all junit tests
+}
+
+const authenticate = async () => {
+    const response = await fetch(backendUrl + "/users/authenticate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+        },
+        body: JSON.stringify({ username, password })
+    })
+    const { jwt_token } = await response.json()
+    return jwt_token
+}
+
+const createGradingBatch = async (token) => {
+    const response = await fetch(backendUrl + "/grading_batches", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`
+        }
+    })
+    const { gradingBatchId } = await response.json()
+    return gradingBatchId
+} 
+
+fs.readdir(applicantZipsFolder, async (error, files) => {
     if (error) {
         console.log(error)
     } else {
-        // generate a gradingBatch id?
+        const token = await authenticate()
+        const gradingBatchId = createGradingBatch(token)
         for (const file of files) {
-            if (file.endsWith(".zip")) {
-                const copyTo = `${unzippedSubmissionsFolder}/${file.replace(".zip", "")}`
-                const unzipTo = `${copyTo}/${unzipDestination}`
-                run(`Copy-Item -R ${testSuiteFolder} ${copyTo}`)
-                run(`Expand-Archive -Path ${file} -DestinationPath ${unzipTo}`)
-                // in this current submission folder that we're iterating through:
-                // set env vars: backend url, applicant id, submission id, gradingBatch id?, basic auth creds for report backend? 
-                // reload maven dependencies
-                // run all junit tests
-            }
+            handleZipFile({ file, token, gradingBatchId })
         }
     }
 })
