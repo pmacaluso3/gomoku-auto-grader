@@ -1,6 +1,7 @@
 package learn.gomoku;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,6 +13,8 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FilesUnchangedTest {
+
+    private ReportHelper reportHelper = new ReportHelper(new TestResultReportClient());
 
     private final Map<String, Integer> fileHashes;
 
@@ -34,20 +37,23 @@ public class FilesUnchangedTest {
         fileHashes.put("players/HumanPlayer", 1692853361);
         fileHashes.put("players/Player", 1965106920);
         fileHashes.put("players/RandomPlayer", -1330107864);
-
     }
 
     @Test
-    void shouldNotHaveChangedStarterFiles() {
-        fileHashes.forEach((filename, hashInteger) -> {
-            try {
-                assertEquals(hashInteger, Files.readString(Paths.get(PATH_TO_PACKAGE + filename + ".java")).hashCode());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+    void shouldNotHaveChangedStarterFiles(TestInfo testInfo) {
+        reportHelper.reportTestCases((unused) -> {
+            fileHashes.forEach((filename, hashInteger) -> {
+                try {
+                    assertEquals(hashInteger, Files.readString(Paths.get(PATH_TO_PACKAGE + filename + ".java")).hashCode());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }, testInfo);
     }
 
+    // If we change any source files, uncomment and run this to get the new hashes
+    // paste output in constructor
 //    @Test
 //    void generateHashCodes() throws IOException {
 //        for (String filename : UNCHANGEABLE_FILES) {

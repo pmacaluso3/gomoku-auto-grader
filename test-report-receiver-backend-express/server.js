@@ -1,17 +1,15 @@
 const express = require('express')
 const app = express()
-const port = 3000
+app.use(express.json())
+const port = 3001
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.post('/success', (req, res) => {
-    console.log("success!")
-})
-
-app.post('/failure', (req, res) => {
-    console.log("failure!")
+app.post("/api/test_case_outcomes", (req, res) => {
+  console.log(req.body)    
+  res.send("ok")
 })
 
 app.listen(port, () => {

@@ -5,11 +5,14 @@ import learn.gomoku.players.HumanPlayer;
 import learn.gomoku.players.RandomPlayer;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,8 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class AppTest {
 
     private final String PATH_TO_SCRIPTS = "./src/test/java/learn/gomoku/scripts/";
-
-    private final String PATH_TO_BOARDS = "./src/test/java/learn/gomoku/expectedBoards/";
 
     private final int SEED = generateSeedThatDoesNotInterfereWithFirstFiveHumanMovesOrProduceDuplicates();
 
@@ -28,94 +29,110 @@ class AppTest {
 
     private final char WHITE_STONE_CHAR = '⚪';
 
-    private final TestResultReportClient reportClient = new TestResultReportClient();
+    private final ReportHelper reportHelper = new ReportHelper(new TestResultReportClient());
 
     @Nested
     class PlayerSelection {
         @Test
-        void selectPlayersHumanVsHuman() {
+        void selectPlayersHumanVsHuman(TestInfo testInfo) {
             Gomoku game = loadScript("playerSelection/selectPlayersHumanVsHuman");
 
-            reportAssertEquals(HumanPlayer.class, game.getPlayerOne().getClass());
-            reportAssertEquals(HumanPlayer.class, game.getPlayerTwo().getClass());
-            reportAssertEquals("Player1", game.getPlayerOne().getName());
-            reportAssertEquals("Player2", game.getPlayerTwo().getName());
+            reportHelper.reportTestCases((unused) -> {
+                assertEquals(HumanPlayer.class, game.getPlayerOne().getClass());
+                assertEquals(HumanPlayer.class, game.getPlayerTwo().getClass());
+                assertEquals("Player1", game.getPlayerOne().getName());
+                assertEquals("Player2", game.getPlayerTwo().getName());
+            }, testInfo);
         }
 
         @Test
-        void selectPlayersHumanVsRandom() {
+        void selectPlayersHumanVsRandom(TestInfo testInfo) {
             Gomoku game = loadScript("playerSelection/selectPlayersHumanVsRandom");
 
-            assertEquals(HumanPlayer.class, game.getPlayerOne().getClass());
-            assertEquals(RandomPlayer.class, game.getPlayerTwo().getClass());
-            assertEquals("Player1", game.getPlayerOne().getName());
+            reportHelper.reportTestCases((unused) -> {
+                assertEquals(HumanPlayer.class, game.getPlayerOne().getClass());
+                assertEquals(RandomPlayer.class, game.getPlayerTwo().getClass());
+                assertEquals("Player1", game.getPlayerOne().getName());
+            }, testInfo);
         }
 
         @Test
-        void selectPlayersRandomVsHuman() {
+        void selectPlayersRandomVsHuman(TestInfo testInfo) {
             Gomoku game = loadScript("playerSelection/selectPlayersRandomVsHuman");
 
-            assertEquals(RandomPlayer.class, game.getPlayerOne().getClass());
-            assertEquals(HumanPlayer.class, game.getPlayerTwo().getClass());
-            assertEquals("Player2", game.getPlayerTwo().getName());
+            reportHelper.reportTestCases((unused) -> {
+                assertEquals(RandomPlayer.class, game.getPlayerOne().getClass());
+                assertEquals(HumanPlayer.class, game.getPlayerTwo().getClass());
+                assertEquals("Player2", game.getPlayerTwo().getName());
+            }, testInfo);
         }
 
         @Test
-        void selectPlayersRandomVsRandom() {
+        void selectPlayersRandomVsRandom(TestInfo testInfo) {
             Gomoku game = loadScript("playerSelection/selectPlayersRandomVsRandom");
 
-            assertEquals(RandomPlayer.class, game.getPlayerOne().getClass());
-            assertEquals(RandomPlayer.class, game.getPlayerTwo().getClass());
+            reportHelper.reportTestCases((unused) -> {
+                assertEquals(RandomPlayer.class, game.getPlayerOne().getClass());
+                assertEquals(RandomPlayer.class, game.getPlayerTwo().getClass());
+            }, testInfo);
         }
     }
 
     @Nested
     class SingleMoves {
         @Test
-        void validHumanMove() {
+        void validHumanMove(TestInfo testInfo) {
             ByteArrayOutputStream stdout = captureStdOut();
 
             Gomoku game = loadScript("singleMoves/validHumanMove");
 
-            assertTrue(game.getStones().get(0).getRow() == 0 && game.getStones().get(0).getColumn() == 0);
-            assertFalse(stdout.toString().contains(Gomoku.OFF_BOARD_MESSAGE));
-            assertFalse(stdout.toString().contains(Gomoku.DUPLICATE_MOVE_MESSAGE));
+            reportHelper.reportTestCases((unused) -> {
+                assertTrue(game.getStones().get(0).getRow() == 0 && game.getStones().get(0).getColumn() == 0);
+                assertFalse(stdout.toString().contains(Gomoku.OFF_BOARD_MESSAGE));
+                assertFalse(stdout.toString().contains(Gomoku.DUPLICATE_MOVE_MESSAGE));
+            }, testInfo);
         }
 
         @Test
-        void offBoardHumanMove() {
+        void offBoardHumanMove(TestInfo testInfo) {
             ByteArrayOutputStream stdout = captureStdOut();
 
             Gomoku game = loadScript("singleMoves/offBoardHumanMove");
 
-            assertTrue(game.getStones().isEmpty());
-            assertTrue(stdout.toString().contains(Gomoku.OFF_BOARD_MESSAGE));
-            assertFalse(stdout.toString().contains(Gomoku.DUPLICATE_MOVE_MESSAGE));
+            reportHelper.reportTestCases((unused) -> {
+                assertTrue(game.getStones().isEmpty());
+                assertTrue(stdout.toString().contains(Gomoku.OFF_BOARD_MESSAGE));
+                assertFalse(stdout.toString().contains(Gomoku.DUPLICATE_MOVE_MESSAGE));
+            }, testInfo);
         }
 
         @Test
-        void duplicateHumanMove() {
+        void duplicateHumanMove(TestInfo testInfo) {
             ByteArrayOutputStream stdout = captureStdOut();
 
             Gomoku game = loadScript("singleMoves/duplicateHumanMove");
 
-            assertEquals(1, game.getStones().size());
-            assertTrue(game.getStones().get(0).getRow() == 0 && game.getStones().get(0).getColumn() == 0);
-            assertTrue(stdout.toString().contains(Gomoku.DUPLICATE_MOVE_MESSAGE));
-            assertFalse(stdout.toString().contains(Gomoku.OFF_BOARD_MESSAGE));
+            reportHelper.reportTestCases((unused) -> {
+                assertEquals(1, game.getStones().size());
+                assertTrue(game.getStones().get(0).getRow() == 0 && game.getStones().get(0).getColumn() == 0);
+                assertTrue(stdout.toString().contains(Gomoku.DUPLICATE_MOVE_MESSAGE));
+                assertFalse(stdout.toString().contains(Gomoku.OFF_BOARD_MESSAGE));
+            }, testInfo);
         }
 
         @Test
-        void twoHumanMoves() {
+        void twoHumanMoves(TestInfo testInfo) {
             ByteArrayOutputStream stdout = captureStdOut();
 
             Gomoku game = loadScript("singleMoves/twoHumanMoves");
 
-            assertEquals(2, game.getStones().size());
-            assertTrue(game.getStones().get(0).getRow() == 0 && game.getStones().get(0).getColumn() == 0);
-            assertTrue(game.getStones().get(1).getRow() == 1 && game.getStones().get(0).getColumn() == 0);
-            assertFalse(stdout.toString().contains(Gomoku.DUPLICATE_MOVE_MESSAGE));
-            assertFalse(stdout.toString().contains(Gomoku.OFF_BOARD_MESSAGE));
+            reportHelper.reportTestCases((unused) -> {
+                assertEquals(2, game.getStones().size());
+                assertTrue(game.getStones().get(0).getRow() == 0 && game.getStones().get(0).getColumn() == 0);
+                assertTrue(game.getStones().get(1).getRow() == 1 && game.getStones().get(0).getColumn() == 0);
+                assertFalse(stdout.toString().contains(Gomoku.DUPLICATE_MOVE_MESSAGE));
+                assertFalse(stdout.toString().contains(Gomoku.OFF_BOARD_MESSAGE));
+            }, testInfo);
         }
 
         // TODO: test random + human?
@@ -125,7 +142,7 @@ class AppTest {
     @Nested
     class BoardPrinting {
         @Test
-        void afterOneHumanMove() {
+        void afterOneHumanMove(TestInfo testInfo) {
             ByteArrayOutputStream stdout = captureStdOut();
 
             Gomoku game = loadScript("boardPrinting/afterOneHumanMove");
@@ -135,76 +152,97 @@ class AppTest {
 
             // WIP: what's the mismatch here
 //            assertTrue(stdout.toString().replaceAll("\\s", "").contains(boardState("afterOneHumanMove").replaceAll("//s", "")));
-            int numberOfBlanks = (15 * 15) - 1;
-            assertEquals(numberOfBlanks, countInstancesOfCharacterInString(BLANK_SPACE_CHAR, stdout.toString()));
-            assertEquals(1, countInstancesOfCharacterInString(BLACK_STONE_CHAR, stdout.toString()));
-            assertTrue(stdout.toString().contains("01 02 03 04 05 06 07 08 09 10 11 12 13 14 15"));
+
+            reportHelper.reportTestCases((unused) -> {
+                int numberOfBlanks = (15 * 15) - 1;
+                assertEquals(numberOfBlanks, countInstancesOfCharacterInString(BLANK_SPACE_CHAR, stdout.toString()));
+                assertEquals(1, countInstancesOfCharacterInString(BLACK_STONE_CHAR, stdout.toString()));
+                assertTrue(stdout.toString().contains("01 02 03 04 05 06 07 08 09 10 11 12 13 14 15"));
+            }, testInfo);
+
+            // TODO: report board state here
         }
 
         @Test
-        void afterTwoHumanMoves() {
+        void afterTwoHumanMoves(TestInfo testInfo) {
             ByteArrayOutputStream stdout = captureStdOut();
 
             Gomoku game = loadScript("boardPrinting/afterTwoHumanMoves");
 
-            int numberOfBlanks = ((15 * 15) - 1) + ((15 * 15 - 2)); // two printed boards
-            assertEquals(numberOfBlanks, countInstancesOfCharacterInString(BLANK_SPACE_CHAR, stdout.toString()));
-            assertEquals(2, countInstancesOfCharacterInString(BLACK_STONE_CHAR, stdout.toString()));
-            assertEquals(1, countInstancesOfCharacterInString(WHITE_STONE_CHAR, stdout.toString()));
+            reportHelper.reportTestCases((unused) -> {
+                int numberOfBlanks = ((15 * 15) - 1) + ((15 * 15 - 2)); // two printed boards
+                assertEquals(numberOfBlanks, countInstancesOfCharacterInString(BLANK_SPACE_CHAR, stdout.toString()));
+                assertEquals(2, countInstancesOfCharacterInString(BLACK_STONE_CHAR, stdout.toString()));
+                assertEquals(1, countInstancesOfCharacterInString(WHITE_STONE_CHAR, stdout.toString()));
+            }, testInfo);
+
+            // TODO: report board state here
         }
     }
 
     @Nested
     class FullGames {
         @Test
-        void humanVsHumanSingleGame() {
+        void humanVsHumanSingleGame(TestInfo testInfo) {
             Gomoku game = loadScript("fullGames/humanVsHumanSingleGame");
 
-            assertEquals(9, game.getStones().size());
-            assertEquals(5, game.getStones().stream().filter(s -> s.isBlack()).collect(Collectors.toList()).size());
-            assertEquals(4, game.getStones().stream().filter(s -> !s.isBlack()).collect(Collectors.toList()).size());
-            assertTrue(game.isOver());
+            reportHelper.reportTestCases((unused) -> {
+                assertEquals(9, game.getStones().size());
+                assertEquals(5, game.getStones().stream().filter(s -> s.isBlack()).collect(Collectors.toList()).size());
+                assertEquals(4, game.getStones().stream().filter(s -> !s.isBlack()).collect(Collectors.toList()).size());
+                assertTrue(game.isOver());
+            }, testInfo);
         }
 
         @Test
-        void humanVsHumanRematch() {
+        void humanVsHumanRematch(TestInfo testInfo) {
             Gomoku game = loadScript("fullGames/humanVsHumanRematch");
 
-            assertFalse(game.isOver());
+            reportHelper.reportTestCases((unused) -> {
+                assertFalse(game.isOver());
+            }, testInfo);
         }
 
         @Test
-        void humanVsRandomSingleGame() {
+        void humanVsRandomSingleGame(TestInfo testInfo) {
             RandomPlayer.random = new Random(SEED);
 
             Gomoku game = loadScript("fullGames/humanVsRandomSingleGame");
 
-            assertTrue(game.getStones().size() == 9 || game.getStones().size() == 10);
-            assertTrue(game.isOver());
-            assertEquals(game.getWinner(), game.getPlayerOne());
+            reportHelper.reportTestCases((unused) -> {
+                assertTrue(game.getStones().size() == 9 || game.getStones().size() == 10);
+                assertTrue(game.isOver());
+                assertEquals(game.getWinner(), game.getPlayerOne());
+            }, testInfo);
         }
 
         @Test
-        void humanVsRandomRematch() {
+        void humanVsRandomRematch(TestInfo testInfo) {
             Gomoku game = loadScript("fullGames/humanVsRandomRematch");
 
-            assertFalse(game.isOver());
+            reportHelper.reportTestCases((unused) -> {
+                assertFalse(game.isOver());
+            }, testInfo);
         }
 
         @Test
-        void randomVsRandomSingleGame() {
+        void randomVsRandomSingleGame(TestInfo testInfo) {
             Gomoku game = loadScript("fullGames/randomVsRandomSingleGame");
 
-            assertTrue(game.isOver());
+            reportHelper.reportTestCases((unused) -> {
+                assertTrue(game.isOver());
+            }, testInfo);
         }
 
         @Test
-        void randomVsRandomRematch() {
+        void randomVsRandomRematch(TestInfo testInfo) {
             Gomoku game = loadScript("fullGames/randomVsRandomRematch");
 
             // if rematch is also randomVsRandom, no way to tell if the game is over because the first game ended
             // or if it's over because the second game also ended
-            assertFalse(game.isOver());
+            reportHelper.reportTestCases((unused) -> {
+                assertFalse(game.isOver());
+            }, testInfo);
         }
     }
 
@@ -225,14 +263,6 @@ class AppTest {
         return baos;
     }
 
-    private String boardState(String filename) {
-        try {
-            return Files.readString(Paths.get(PATH_TO_BOARDS + filename + ".txt"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private long countInstancesOfCharacterInString(char character, String string) {
         return string.chars().filter(c -> c == character).count();
     }
@@ -249,14 +279,5 @@ class AppTest {
             }
         } while (moves.stream().anyMatch(i -> i <= 5) || moves.size() == new HashSet<Integer>(moves).size());
         return seed;
-    }
-
-    private void reportAssertEquals(Object expected, Object actual) {
-        try {
-            assertEquals(expected, actual);
-            reportClient.report(true);
-        } catch (AssertionError ex) {
-            reportClient.report(false);
-        }
     }
 }

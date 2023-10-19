@@ -1,5 +1,6 @@
 package learn.gomoku;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
@@ -7,12 +8,15 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TestResultReportClient {
 
     private final String token;
     private final String apiUrl;
 
+    private final String submissionId;
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -22,25 +26,32 @@ public class TestResultReportClient {
     public TestResultReportClient() {
         this.token = loadRequiredEnvVar("ADMIN_TOKEN");
         this.apiUrl = loadRequiredEnvVar("API_URL");
+        this.submissionId = loadRequiredEnvVar("SUBMISSION_ID");
     }
 
-    public void report(boolean success) {
-        String url = "http://localhost:3000";
-        if (success) {
-            url += "/success";
-        } else {
-            url += "/failure";
+    public void report(String testName, Boolean success, String description, String boardState) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("testName", testName);
+        data.put("success", success);
+        data.put("description", description);
+        data.put("boardState", boardState);
+        data.put("submissionId", submissionId);
+        makePost(data);
+    }
+
+    private void makePost(Map<String, Object> data) {
+        String json = null;
+        try {
+            json = mapper.writeValueAsString(data);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
-        makePost(url);
-    }
-
-    private void makePost(String url) {
-        String json = "{}";
         RequestBody body = RequestBody.create(
                 MediaType.parse("application/json"), json);
 
         Request request = new Request.Builder()
-                .url(url)
+                .url(apiUrl + "/test_case_outcomes")
+                .header("Authorization", String.format("Bearer %s", token))
                 .post(body)
                 .build();
 
@@ -58,7 +69,7 @@ public class TestResultReportClient {
     }
 
     private String loadRequiredEnvVar(String key) {
-        String value = System.getProperty(key);
+        String value = System.getenv().get(key);
         if (value == null || value.isBlank()) {
             throw new EnvironmentVariableNotFoundException(String.format("Environment variable %s not found", key));
         }

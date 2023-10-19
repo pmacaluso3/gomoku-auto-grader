@@ -28,7 +28,7 @@ const handleZipFile = ({ file, token, gradingBatchId }) => {
     const unzipTo = `${copyTo}/${unzipDestination}`
     run(`Copy-Item -R ${testSuiteFolder} ${copyTo}`)
     run(`Expand-Archive -Path ${applicantZipsFolder}/${file} -DestinationPath ${unzipTo}`)
-    run(`cd ${copyTo}`)
+    // run(`cd ${copyTo}`)
     // run("java -jar junit-platform-console-standalone-1.10.0.jar execute")
     // java -jar junit-platform-console-standalone-1.10.0.jar execute <OPTIONS>
     // in this current submission folder that we're iterating through:
@@ -67,8 +67,10 @@ fs.readdir(applicantZipsFolder, async (error, files) => {
     if (error) {
         console.log(error)
     } else {
-        const token = await authenticate()
-        const gradingBatchId = createGradingBatch(token)
+        // const token = await authenticate()
+        // const gradingBatchId = createGradingBatch(token)
+        const token = "asdf"
+        const gradingBatchId = 1
         for (const file of files) {
             handleZipFile({ file, token, gradingBatchId })
         }

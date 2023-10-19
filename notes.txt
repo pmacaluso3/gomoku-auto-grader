@@ -1,4 +1,6 @@
 
+ADMIN_TOKEN=asdf;API_URL=http://localhost:3001/api;SUBMISSION_ID=1
+
 PICKUP: POST /test_case_outcomes from gomoku-test-suite; test script needs to POST /authenticate w/ admin creds from .env, then set env vars in each test-suite copy: admin token, backend url, submission id, gradingBatch id
 NEXT: download folder of applicant zips; view grading batches (each submission should indicate if it's had any of its TCOs touched by hand); view & edit a single submission's TCOs
 
