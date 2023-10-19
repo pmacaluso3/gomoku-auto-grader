@@ -27,7 +27,10 @@ const handleZipFile = ({ file, token, gradingBatchId }) => {
     const copyTo = `${unzippedSubmissionsFolder}/${file.replace(".zip", "")}`
     const unzipTo = `${copyTo}/${unzipDestination}`
     run(`Copy-Item -R ${testSuiteFolder} ${copyTo}`)
-    run(`Expand-Archive -Path ${file} -DestinationPath ${unzipTo}`)
+    run(`Expand-Archive -Path ${applicantZipsFolder}/${file} -DestinationPath ${unzipTo}`)
+    run(`cd ${copyTo}`)
+    // run("java -jar junit-platform-console-standalone-1.10.0.jar execute")
+    // java -jar junit-platform-console-standalone-1.10.0.jar execute <OPTIONS>
     // in this current submission folder that we're iterating through:
     // set env vars: token, backend url, submission id, gradingBatch id
     // reload maven dependencies
@@ -58,7 +61,7 @@ const createGradingBatch = async (token) => {
     })
     const { gradingBatchId } = await response.json()
     return gradingBatchId
-} 
+}
 
 fs.readdir(applicantZipsFolder, async (error, files) => {
     if (error) {
