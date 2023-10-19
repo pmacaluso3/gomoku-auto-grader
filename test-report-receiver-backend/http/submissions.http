@@ -1,6 +1,6 @@
 @base_url = http://localhost:8080/api/submissions
 @applicant_token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhcHBsaWNhbnQtc3VibWlzc2lvbnMiLCJzdWIiOiJhc2RmIiwiYXV0aG9yaXRpZXMiOiJBUFBMSUNBTlQiLCJleHAiOjE2OTc1ODIxMjV9.q1A0JX8KBMyAl67M9ZIYdC_DOg_XZzqfVXJejlLJXg8
-@admin_token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwZXJzb25hbC1zb2xhci1mYXJtIiwic3ViIjoiYWRtaW5AZGV2LTEwLmNvbSIsImF1dGhvcml0aWVzIjoiQURNSU4iLCJleHAiOjE2OTc0ODA3NDJ9.SO8kkATXdWz2oBWMr_F0Bg8HIPXeTbHuZZkvFshDJYQ
+@admin_token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhcHBsaWNhbnQtc3VibWlzc2lvbnMiLCJzdWIiOiJhZG1pbkBkZXYtMTAuY29tIiwiYXV0aG9yaXRpZXMiOiJBRE1JTiIsImV4cCI6MTY5Nzc1MzgzN30.OCL53UpAAFPE6aZrkrGJy5nkeVmq1MVN9QubafwbMz8
 
 GET {{base_url}}/all
 Authorization: Bearer {{admin_token}}
@@ -20,3 +20,15 @@ Content-Disposition: form-data; name="zipFile"; filename="known-working-student-
 Content-Type: application/zip
 
 < C:\Users\PeterMacaluso\dev-10\auto-grader-local-script\applicant-zips\known-working-student-submission.zip
+
+###
+
+PUT {{base_url}}/mark_graded
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{admin_token}}
+
+{
+    "submissionId": 1,
+    "gradingBatchId": 1
+}

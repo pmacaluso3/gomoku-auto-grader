@@ -45,6 +45,17 @@ public class SubmissionService {
         return result;
     }
 
+    public Result<Submission> markGraded(Submission submission) {
+        Result<Submission> result = new Result<>();
+        Submission udpatedSubmission = repository.markGraded(submission);
+        if (udpatedSubmission == null) {
+            result.addErrorMessage("Could not find submission to update", ResultType.NOT_FOUND);
+        } else {
+            result.setPayload(udpatedSubmission);
+        }
+        return result;
+    }
+
     private Result<Submission> validate(Submission submission) {
         Result<Submission> result = new Result<>();
         if (submission.getZipFile() == null) {

@@ -44,7 +44,7 @@ public class SubmissionJdbcTemplateRepository implements SubmissionRepository {
 
     @Override
     public Submission create(Submission submission) {
-        final String sql = "insert into submission (app_user_id, zip_file, created_at) values (?, ?, current_timestamp());";
+        String sql = "insert into submission (app_user_id, zip_file, created_at) values (?, ?, current_timestamp());";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
@@ -64,7 +64,12 @@ public class SubmissionJdbcTemplateRepository implements SubmissionRepository {
     }
 
     @Override
-    public boolean update(Submission submission) {
-        return false;
+    public Submission markGraded(Submission submission) {
+        String sql = "update submission set grading_batch_id = ?, graded_at = current_timestamp() " +
+                "where submission.submission_id = ?";
+        jdbcTemplate.update(sql, submission.getGradingBatchId(), submission.getSubmissionId());
+        String confirmationSql = "select * from submission where submission_id = ?";
+        return jdbcTemplate.query(confirmationSql, new SubmissionMapper(), submission.getSubmissionId())
+                .stream().findFirst().orElse(null);
     }
 }

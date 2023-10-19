@@ -21,9 +21,24 @@ const run = (cmd) => {
     })
 }
 
+const markGraded = async (submissionId, gradingBatchId, token) => {
+    const response = await fetch(backendUrl + "/submissions/mark_graded", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ submissionId, gradingBatchId })
+    })
+    return await response.json()
+}
+
 const handleZipFile = ({ file, token, gradingBatchId }) => {
     if (!file.endsWith(".zip")) { return }
-
+    
+    const submissionId = "TODO" // once we have zipFile exports, derive the submissionId from the file's name
+    markGraded(submissionId, gradingBatchId, token)
     const copyTo = `${unzippedSubmissionsFolder}/${file.replace(".zip", "")}`
     const unzipTo = `${copyTo}/${unzipDestination}`
     run(`Copy-Item -R ${testSuiteFolder} ${copyTo}`)

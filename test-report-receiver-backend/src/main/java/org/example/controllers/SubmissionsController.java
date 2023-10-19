@@ -47,6 +47,12 @@ public class SubmissionsController {
         return ControllerHelper.convertResultToHttpResponse(result);
     }
 
+    @PutMapping("/mark_graded")
+    public ResponseEntity<Object> markGraded(@RequestBody Submission submission) {
+        Result<Submission> result = service.markGraded(submission);
+        return ControllerHelper.convertResultToHttpResponse(result);
+    }
+
     private String getAuthorizedUsername() {
         return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }

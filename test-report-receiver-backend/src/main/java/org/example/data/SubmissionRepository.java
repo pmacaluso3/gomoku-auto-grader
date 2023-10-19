@@ -13,5 +13,5 @@ public interface SubmissionRepository {
 
     public Submission create(Submission submission);
 
-    public boolean update(Submission submission);
+    public Submission markGraded(Submission submission);
 }
