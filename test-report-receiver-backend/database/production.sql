@@ -39,8 +39,7 @@ create table app_user_role (
 
 create table grading_batch (
     grading_batch_id int primary key auto_increment,
-    created_at timestamp,
-    graded_at timestamp
+    created_at timestamp
 );
 
 create table submission (
@@ -60,6 +59,7 @@ create table submission (
 
 create table test_case_outcome (
     test_case_outcome_id int primary key auto_increment,
+    test_name text,
     submission_id int not null,
     success boolean not null,
     has_been_manually_edited boolean not null default false,

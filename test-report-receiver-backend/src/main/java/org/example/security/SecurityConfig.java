@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST, "/api/users/authenticate").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/users").hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/users/account_setup").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/users").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/users/applicants").hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/submissions/all").hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/submissions/mine").hasAnyAuthority("APPLICANT")
                 .antMatchers(HttpMethod.PUT, "/api/submissions/mark_graded").hasAnyAuthority("ADMIN")

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 
 import UserContext from "../contexts/UserContext"
-import SubmissionList from "../components/submissions/SubmissionsList"
+import Table from "../components/Table"
 
 const AllSubmissions = () => {
     const [allSubmissions, setAllSubmissions] = useState([])
@@ -41,7 +41,7 @@ const AllSubmissions = () => {
     return (
         <>
             <h3>All Submissions</h3>
-            <SubmissionList submissions={allSubmissions} />
+            <Table records={filteredSubmissions} keys={ ["gradedAt", "createdAt"] } />
             <button onClick={downloadSelectedZips}>Download selected zips</button>
         </>
     )

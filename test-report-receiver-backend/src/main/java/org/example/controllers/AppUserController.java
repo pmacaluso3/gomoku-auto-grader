@@ -32,7 +32,7 @@ public class AppUserController {
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping("/applicants")
     public List<AppUser> getAllApplicants() {
         return service.findAllApplicants();
     }

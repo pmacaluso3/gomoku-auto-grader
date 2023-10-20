@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import UserContext from "../contexts/UserContext"
-import SubmissionsList from "../components/submissions/SubmissionsList"
+import Table from "../components/Table"
 
 const MySubmissions = () => {
     const [submissions, setSubmissions] = useState([])
@@ -17,7 +17,7 @@ const MySubmissions = () => {
     return (
         <>
             <h3>My Submissions</h3>
-            <SubmissionsList submissions={submissions} />
+            <Table records={submissions} keys={["createdAt", "gradedAt"]} />
         </>
     )
 }

@@ -1,5 +1,6 @@
 package org.example.models;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class GradingBatch {
@@ -7,15 +8,20 @@ public class GradingBatch {
 
     private List<Submission> submissions;
 
-    public GradingBatch(int gradingBatchId, List<Submission> submissions) {
-        this.gradingBatchId = gradingBatchId;
-        this.submissions = submissions;
-    }
+    private LocalDateTime createdAt;
 
     public GradingBatch() {}
 
     public int getGradingBatchId() {
         return gradingBatchId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public void setGradingBatchId(int gradingBatchId) {

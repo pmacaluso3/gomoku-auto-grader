@@ -3,17 +3,10 @@ import { useEffect, useState } from "react";
 import decode from "jwt-decode"
 
 import './App.css';
-import Login from "./pages/Login";
 import Nav from "./components/Nav";
-import { loggedIn, loggedOut } from "./utils/protectedRoute"
-import { buildAuthRequests, post } from "./utils/http"
+import { buildAuthRequests } from "./utils/http"
 import UserContext from "./contexts/UserContext"
-import Home from "./pages/Home";
-import CreateApplicant from "./pages/CreateApplicant";
-import SetupAccount from "./pages/SetupAccount";
-import CreateSubmission from "./pages/CreateSubmission"
-import MySubmissions from "./pages/MySubmissions"
-import AllSubmissions from "./pages/AllSubmissions";
+import AppRoutes from "./components/AppRoutes";
 
 
 function App() {
@@ -51,34 +44,7 @@ function App() {
       <BrowserRouter>
         <Nav />
         <h1>Applicant Submissions</h1>
-        <Routes>
-          {/* unconditional */}
-          <Route path="/" element={<Home />} />
-
-          {/* loged out only */}
-          <Route path="/login" element={loggedOut(<Login />, user)} />
-          <Route path="/setupAccount/:accountSetupToken" element={<SetupAccount />}/>
-
-          {/* loged in admin only */}
-          <Route
-            path="/createApplicant"
-            element={loggedIn(<CreateApplicant />, user, "ADMIN")}
-          />
-          <Route
-            path="/allSubmissions"
-            element={loggedIn(<AllSubmissions />, user, "ADMIN")}
-          />
-
-          {/* loged in applicant only */}
-          <Route
-            path="/createSubmission"
-            element={loggedIn(<CreateSubmission />, user, "APPLICANT")}
-          />
-          <Route
-            path="/mySubmissions"
-            element={loggedIn(<MySubmissions />, user, "APPLICANT")}
-          />
-        </Routes>
+        <AppRoutes />
       </BrowserRouter>    
     </UserContext.Provider>
   );
