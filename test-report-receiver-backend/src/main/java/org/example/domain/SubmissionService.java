@@ -6,8 +6,16 @@ import org.example.models.AppUser;
 import org.example.models.Submission;
 import org.springframework.stereotype.Component;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Component
 public class SubmissionService {
@@ -37,6 +45,31 @@ public class SubmissionService {
         return result;
     }
 
+    // modifies the incoming baos
+    public void getZipFileFromIds(List<Integer> ids, ByteArrayOutputStream baos) {
+        try (ZipOutputStream zipOutput = new ZipOutputStream(baos)) {
+            List<Submission> submissions = findWhereIdInList(ids);
+            for (Submission submission : submissions) {
+                Blob zipFileBlob = submission.getZipFile();
+                String entryName = String.valueOf(submission.getSubmissionId());
+
+                ZipEntry zipEntry = new ZipEntry(entryName + ".zip");
+                zipOutput.putNextEntry(zipEntry);
+
+                try (InputStream inputStream = zipFileBlob.getBinaryStream()) {
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = inputStream.read(buffer)) > 0) {
+                        zipOutput.write(buffer, 0, bytesRead);
+                    }
+                }
+                zipOutput.closeEntry();
+            }
+        } catch (IOException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Result<Submission> create(Submission submission) {
         Result<Submission> result = validate(submission);
         if (result.isSuccess()) {
@@ -64,4 +97,7 @@ public class SubmissionService {
         return result;
     }
 
+    public List<Submission> findWhereIdInList(List<Integer> ids) {
+        return repository.findWhereIdInList(ids);
+    }
 }

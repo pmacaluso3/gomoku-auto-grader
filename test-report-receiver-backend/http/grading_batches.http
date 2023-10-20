@@ -1,5 +1,5 @@
 @base_url = http://localhost:8080/api/grading_batches
-@admin_token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhcHBsaWNhbnQtc3VibWlzc2lvbnMiLCJzdWIiOiJhZG1pbkBkZXYtMTAuY29tIiwiYXV0aG9yaXRpZXMiOiJBRE1JTiIsImV4cCI6MTY5Nzc1MzgzN30.OCL53UpAAFPE6aZrkrGJy5nkeVmq1MVN9QubafwbMz8
+@admin_token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhcHBsaWNhbnQtc3VibWlzc2lvbnMiLCJzdWIiOiJhZG1pbkBkZXYtMTAuY29tIiwiYXV0aG9yaXRpZXMiOiJBRE1JTiIsImV4cCI6MTY5NzgyNjY2MX0.-EXloIE1XgpKwN30eLEJo0B2HvcJYAVw81pobps2PyE
 
 GET {{base_url}}
 Authorization: Bearer {{admin_token}}

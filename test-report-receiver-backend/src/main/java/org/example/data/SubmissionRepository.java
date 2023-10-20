@@ -11,6 +11,8 @@ public interface SubmissionRepository {
 
     public List<Submission> findByGradingBatchId(int id);
 
+    public List<Submission> findWhereIdInList(List<Integer> ids);
+
     public Submission create(Submission submission);
 
     public Submission markGraded(Submission submission);

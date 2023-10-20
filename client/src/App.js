@@ -13,6 +13,7 @@ import CreateApplicant from "./pages/CreateApplicant";
 import SetupAccount from "./pages/SetupAccount";
 import CreateSubmission from "./pages/CreateSubmission"
 import MySubmissions from "./pages/MySubmissions"
+import AllSubmissions from "./pages/AllSubmissions";
 
 
 function App() {
@@ -62,6 +63,10 @@ function App() {
           <Route
             path="/createApplicant"
             element={loggedIn(<CreateApplicant />, user, "ADMIN")}
+          />
+          <Route
+            path="/allSubmissions"
+            element={loggedIn(<AllSubmissions />, user, "ADMIN")}
           />
 
           {/* loged in applicant only */}

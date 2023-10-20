@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class SubmissionJdbcTemplateRepository implements SubmissionRepository {
@@ -40,6 +41,13 @@ public class SubmissionJdbcTemplateRepository implements SubmissionRepository {
     public List<Submission> findByGradingBatchId(int id) {
         String sql = "select * from submission where grading_batch_id = ?;";
         return jdbcTemplate.query(sql, new SubmissionMapper(), id);
+    }
+
+    @Override
+    public List<Submission> findWhereIdInList(List<Integer> ids) {
+        String joinedIds = String.join(",", ids.stream().map(i -> i.toString()).collect(Collectors.toList()));
+        String sql = "select * from submission where submission_id in (?)";
+        return jdbcTemplate.query(sql, new SubmissionMapper(), joinedIds);
     }
 
     @Override

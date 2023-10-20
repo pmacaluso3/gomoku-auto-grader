@@ -29,6 +29,7 @@ const Nav = () => {
 
                     // logged in admin only
                     <LoggedInLink to="/createApplicant" text="Create Applicant" requiredRole="ADMIN" />,
+                    <LoggedInLink to="/allSubmissions" text="All Submissions" requiredRole="ADMIN" />,
 
                     // logged in applicant only
                     <LoggedInLink to="/createSubmission" text="Create Submission" requiredRole="APPLICANT" />,

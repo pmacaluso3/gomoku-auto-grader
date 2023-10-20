@@ -82,10 +82,10 @@ fs.readdir(applicantZipsFolder, async (error, files) => {
     if (error) {
         console.log(error)
     } else {
-        // const token = await authenticate()
-        // const gradingBatchId = createGradingBatch(token)
-        const token = "asdf"
-        const gradingBatchId = 1
+        const token = await authenticate()
+        const gradingBatchId = createGradingBatch(token)
+        // const token = "asdf"
+        // const gradingBatchId = 1
         for (const file of files) {
             handleZipFile({ file, token, gradingBatchId })
         }
