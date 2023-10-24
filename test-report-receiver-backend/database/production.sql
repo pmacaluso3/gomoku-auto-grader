@@ -1,4 +1,3 @@
-
 drop database if exists gomoku_grader;
 create database gomoku_grader;
 use gomoku_grader;
@@ -80,17 +79,3 @@ insert into app_user (username, password_hash, enabled)
     ('admin@dev-10.com', '$2a$10$WZPggZQdJ7li5N/x1AwQ3eJo73pzV2803CUoIaGJ4e965pW49c0Y2', 1); -- pw == admin
 
 insert into app_user_role (app_user_id, app_role_id) values (1, 1);
-
-
-
-
-
-
-
-
-
-
-
-
-
-

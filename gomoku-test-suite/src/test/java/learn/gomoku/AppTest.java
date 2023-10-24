@@ -23,11 +23,11 @@ class AppTest {
 
     private final int SEED = generateSeedThatDoesNotInterfereWithFirstFiveHumanMovesOrProduceDuplicates();
 
-    private final char BLANK_SPACE_CHAR = '☐';
+    private final char BLANK_SPACE_CHAR = '_';
 
-    private final char BLACK_STONE_CHAR = '⚫';
+    private final char BLACK_STONE_CHAR = 'B';
 
-    private final char WHITE_STONE_CHAR = '⚪';
+    private final char WHITE_STONE_CHAR = 'W';
 
     private final ReportHelper reportHelper = new ReportHelper(new TestResultReportClient());
 

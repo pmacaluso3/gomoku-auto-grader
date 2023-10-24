@@ -21,36 +21,6 @@ const run = (cmd) => {
     })
 }
 
-const markGraded = async (submissionId, gradingBatchId, token) => {
-    const response = await fetch(backendUrl + "/submissions/mark_graded", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ submissionId, gradingBatchId })
-    })
-    return await response.json()
-}
-
-const handleZipFile = ({ file, token, gradingBatchId }) => {
-    if (!file.endsWith(".zip")) { return }
-    
-    const submissionId = "TODO" // once we have zipFile exports, derive the submissionId from the file's name
-    markGraded(submissionId, gradingBatchId, token)
-    const copyTo = `${unzippedSubmissionsFolder}/${file.replace(".zip", "")}`
-    const unzipTo = `${copyTo}/${unzipDestination}`
-    run(`Copy-Item -R ${testSuiteFolder} ${copyTo}`)
-    run(`Expand-Archive -Path ${applicantZipsFolder}/${file} -DestinationPath ${unzipTo}`)
-    // run(`cd ${copyTo}`)
-    // run("java -jar junit-platform-console-standalone-1.10.0.jar execute")
-    // java -jar junit-platform-console-standalone-1.10.0.jar execute <OPTIONS>
-    // in this current submission folder that we're iterating through:
-    // set env vars: token, backend url, submission id, gradingBatch id
-    // reload maven dependencies
-    // run all junit tests
-}
 
 const authenticate = async () => {
     const response = await fetch(backendUrl + "/users/authenticate", {
@@ -78,14 +48,45 @@ const createGradingBatch = async (token) => {
     return gradingBatchId
 }
 
+const markGraded = async ({ submissionId, gradingBatchId, token }) => {
+    const response = await fetch(backendUrl + "/submissions/mark_graded", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ submissionId, gradingBatchId })
+    })
+}
+
+const handleZipFile = ({ file, token, gradingBatchId }) => {
+    if (!file.endsWith(".zip")) { return }
+    
+    const submissionId = file.replace(/.zip$/, "")
+    markGraded(submissionId, gradingBatchId, token)
+    const copyTo = `${unzippedSubmissionsFolder}/${file.replace(".zip", "")}`
+    const unzipTo = `${copyTo}/${unzipDestination}`
+    run(`Copy-Item -R ${testSuiteFolder} ${copyTo}`)
+    run(`Expand-Archive -Path ${applicantZipsFolder}/${file} -DestinationPath ${unzipTo}`)
+    
+    run(`export ADMIN_TOKEN=${token}`)
+    run(`export API_URL=${backendUrl}`)
+    run(`export SUBMISSION_ID=${submissionId}`)
+
+    run(`mvn -f ${copyTo} clean install`)
+
+    run(`unset ADMIN_TOKEN`)
+    run(`unset API_URL`)
+    run(`unset SUBMISSION_ID`)
+}
+
 fs.readdir(applicantZipsFolder, async (error, files) => {
     if (error) {
         console.log(error)
     } else {
         const token = await authenticate()
-        const gradingBatchId = createGradingBatch(token)
-        // const token = "asdf"
-        // const gradingBatchId = 1
+        const gradingBatchId = await createGradingBatch(token)
         for (const file of files) {
             handleZipFile({ file, token, gradingBatchId })
         }
