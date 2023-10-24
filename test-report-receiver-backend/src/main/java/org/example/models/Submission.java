@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class Submission {
     private int submissionId;
@@ -18,14 +21,7 @@ public class Submission {
     private Timestamp createdAt;
     private Timestamp gradedAt;
 
-    public Submission(int submissionId, int appUserId, Blob zipFile, int gradingBatchId, Timestamp createdAt, Timestamp gradedAt) {
-        this.submissionId = submissionId;
-        this.appUserId = appUserId;
-        this.zipFile = zipFile;
-        this.gradingBatchId = gradingBatchId;
-        this.createdAt = createdAt;
-        this.gradedAt = gradedAt;
-    }
+    private List<TestCaseOutcome> testCaseOutcomes = new ArrayList<>();
 
     public Submission(int appUserId, MultipartFile zipFile) {
         this.appUserId = appUserId;
@@ -73,6 +69,18 @@ public class Submission {
 
     public int getGradingBatchId() {
         return gradingBatchId;
+    }
+
+    public List<TestCaseOutcome> getTestCaseOutcomes() {
+        return testCaseOutcomes;
+    }
+
+    public void setTestCaseOutcomes(List<TestCaseOutcome> testCaseOutcomes) {
+        this.testCaseOutcomes = testCaseOutcomes;
+    }
+
+    public void addTestCaseOutcome(TestCaseOutcome testCaseOutcome) {
+        this.testCaseOutcomes.add(testCaseOutcome);
     }
 
     public void setGradingBatchId(int gradingBatchId) {

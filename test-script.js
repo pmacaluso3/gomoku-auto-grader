@@ -95,7 +95,7 @@ const handleZipFile = ({ file, token, gradingBatchId }) => {
     if (!file.endsWith(".zip")) { return }
     
     const submissionId = file.replace(/.zip$/, "")
-    markGraded(submissionId, gradingBatchId, token)
+    markGraded({ submissionId, gradingBatchId, token })
     const copyTo = `${unzippedSubmissionsFolder}/${file.replace(".zip", "")}`
     const unzipTo = `${copyTo}/${unzipDestination}`
     // run(`Copy-Item -R ${testSuiteFolder} ${copyTo}`)

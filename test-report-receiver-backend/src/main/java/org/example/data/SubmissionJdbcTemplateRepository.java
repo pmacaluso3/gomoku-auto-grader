@@ -1,5 +1,6 @@
 package org.example.data;
 
+import org.example.data.extractors.SubmissionWithTestCaseOutcomesExtractor;
 import org.example.data.mappers.SubmissionMapper;
 import org.example.models.Submission;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -7,6 +8,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,25 +24,28 @@ public class SubmissionJdbcTemplateRepository implements SubmissionRepository {
 
     @Override
     public List<Submission> findAll() {
-        String sql = "select * from submission";
+        String sql = "select s.*, tco.* from submission s " +
+                "left outer join test_case_outcome tco on s.submission_id = tco.submission_id";
 
-        return jdbcTemplate.query(sql, new SubmissionMapper());
+        return jdbcTemplate.query(sql, new SubmissionWithTestCaseOutcomesExtractor());
     }
 
     @Override
     public List<Submission> findByApplicantUsername(String username) {
-        String sql = "select s." +
-                "* from submission s " +
+        String sql = "select s.*, tco.* " +
+                "from submission s " +
                 "join app_user au on s.app_user_id = au.app_user_id " +
+                "left outer join test_case_outcome tco on s.submission_id = tco.submission_id " +
                 "where au.username = ?";
 
-        return jdbcTemplate.query(sql, new SubmissionMapper(), username);
+        return jdbcTemplate.query(sql, new SubmissionWithTestCaseOutcomesExtractor(), username);
     }
 
     @Override
     public List<Submission> findByGradingBatchId(int id) {
-        String sql = "select * from submission where grading_batch_id = ?;";
-        return jdbcTemplate.query(sql, new SubmissionMapper(), id);
+        String sql = "select s.*, tco.* from submission s " +
+                "left outer join test_case_outcome tco on s.submission_id = tco.submission_id where s.grading_batch_id = ?;";
+        return jdbcTemplate.query(sql, new SubmissionWithTestCaseOutcomesExtractor(), id);
     }
 
     @Override

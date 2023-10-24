@@ -1,8 +1,11 @@
 
-ADMIN_TOKEN=eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhcHBsaWNhbnQtc3VibWlzc2lvbnMiLCJzdWIiOiJhZG1pbkBkZXYtMTAuY29tIiwiYXV0aG9yaXRpZXMiOiJBRE1JTiIsImV4cCI6MTY5NzgyNjgyOX0.EshigGRIy401FJF3ljWoDHamTeD5W8IMqmmIKSFfufU;API_URL=http://localhost:3001/api;SUBMISSION_ID=1
+TODO:
+    - only downloading one submission in zip file? what happened to the others?
+    - POSTing to test_case_outcomes needs to include test name
+        - also should eventually include board state
+    - display number of passes & fails in submissions tables
+    - manually edit TCO 
 
-PICKUP: download folder of applicant zips; view grading batches (each submission should indicate if it's had any of its TCOs touched by hand); view & edit a single submission's TCOs
-NEXT: run junit tests from command line (current attempt in script is not finding any tests)
 
 user experience questions:
     - when applicant logs in w/ blank password before setup, should service tell them they need to go to setup?

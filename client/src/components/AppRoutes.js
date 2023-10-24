@@ -22,11 +22,11 @@ const AppRoutes = () => {
           {/* unconditional */}
           <Route path="/" element={<Home />} />
 
-          {/* loged out only */}
+          {/* logged out only */}
           <Route path="/login" element={loggedOut(<Login />, user)} />
-          <Route path="/setupAccount/:accountSetupToken" element={<SetupAccount />}/>
+          <Route path="/setupAccount/:accountSetupToken" element={loggedOut(<SetupAccount />, user)}/>
 
-          {/* loged in admin only */}
+          {/* logged in admin only */}
           <Route
             path="/createApplicant"
             element={loggedIn(<CreateApplicant />, user, "ADMIN")}
@@ -44,7 +44,7 @@ const AppRoutes = () => {
             element={loggedIn(<AllSubmissions />, user, "ADMIN")}
           />
 
-          {/* loged in applicant only */}
+          {/* logged in applicant only */}
           <Route
             path="/createSubmission"
             element={loggedIn(<CreateSubmission />, user, "APPLICANT")}

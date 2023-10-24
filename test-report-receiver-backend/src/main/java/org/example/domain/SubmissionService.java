@@ -80,11 +80,11 @@ public class SubmissionService {
 
     public Result<Submission> markGraded(Submission submission) {
         Result<Submission> result = new Result<>();
-        Submission udpatedSubmission = repository.markGraded(submission);
-        if (udpatedSubmission == null) {
+        Submission updatedSubmission = repository.markGraded(submission);
+        if (updatedSubmission == null) {
             result.addErrorMessage("Could not find submission to update", ResultType.NOT_FOUND);
         } else {
-            result.setPayload(udpatedSubmission);
+            result.setPayload(updatedSubmission);
         }
         return result;
     }

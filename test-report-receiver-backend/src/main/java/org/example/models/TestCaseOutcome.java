@@ -2,11 +2,22 @@ package org.example.models;
 
 public class TestCaseOutcome {
     private int testCaseOutcomeId;
+    private String testName;
     private int submissionId;
     private boolean success;
     private boolean hasBeenManuallyEdited;
     private String description;
     private String boardState;
+
+    public TestCaseOutcome(int testCaseOutcomeId, String testName, int submissionId, boolean success, boolean hasBeenManuallyEdited, String description, String boardState) {
+        this.testCaseOutcomeId = testCaseOutcomeId;
+        this.testName = testName;
+        this.submissionId = submissionId;
+        this.success = success;
+        this.hasBeenManuallyEdited = hasBeenManuallyEdited;
+        this.description = description;
+        this.boardState = boardState;
+    }
 
     public boolean hasBeenManuallyEdited() {
         return hasBeenManuallyEdited;
@@ -15,22 +26,6 @@ public class TestCaseOutcome {
     public void setHasBeenManuallyEdited(boolean hasBeenManuallyEdited) {
         this.hasBeenManuallyEdited = hasBeenManuallyEdited;
     }
-
-    public TestCaseOutcome(int testCaseOutcomeId,
-                           int submissionId,
-                           boolean success,
-                           boolean hasBeenManuallyEdited,
-                           String description,
-                           String boardState) {
-        this.testCaseOutcomeId = testCaseOutcomeId;
-        this.submissionId = submissionId;
-        this.success = success;
-        this.hasBeenManuallyEdited = hasBeenManuallyEdited;
-        this.description = description;
-        this.boardState = boardState;
-    }
-
-    public TestCaseOutcome() {}
 
     public int getTestCaseOutcomeId() {
         return testCaseOutcomeId;
