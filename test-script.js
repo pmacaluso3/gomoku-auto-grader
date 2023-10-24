@@ -21,7 +21,6 @@ const run = (cmd) => {
     })
 }
 
-
 const authenticate = async () => {
     const response = await fetch(backendUrl + "/users/authenticate", {
         method: "POST",
@@ -60,6 +59,38 @@ const markGraded = async ({ submissionId, gradingBatchId, token }) => {
     })
 }
 
+const setEnvVars = async (projectFolder, vars) => {
+    const pomPath = projectFolder + "/pom.xml"
+    const pom = fs.readFileSync(pomPath).toString()
+    const boundary = "</properties>"
+    let [firstHalf, secondHalf] = pom.split(boundary)
+    firstHalf += boundary
+
+    let varsString = ""
+    for (const key of Object.keys(vars)) {
+        varsString += `<${key}>${vars[key]}</${key}>`
+    }
+
+    const varsInPom = 
+    `<build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>`
+                    +
+                        varsString
+                    +
+                    `</systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>`
+
+    fs.writeFileSync(pomPath, firstHalf + varsInPom + secondHalf)
+}
+
 const handleZipFile = ({ file, token, gradingBatchId }) => {
     if (!file.endsWith(".zip")) { return }
     
@@ -67,18 +98,30 @@ const handleZipFile = ({ file, token, gradingBatchId }) => {
     markGraded(submissionId, gradingBatchId, token)
     const copyTo = `${unzippedSubmissionsFolder}/${file.replace(".zip", "")}`
     const unzipTo = `${copyTo}/${unzipDestination}`
-    run(`Copy-Item -R ${testSuiteFolder} ${copyTo}`)
-    run(`Expand-Archive -Path ${applicantZipsFolder}/${file} -DestinationPath ${unzipTo}`)
+    // run(`Copy-Item -R ${testSuiteFolder} ${copyTo}`)
+    // run(`Expand-Archive -Path ${applicantZipsFolder}/${file} -DestinationPath ${unzipTo}`)
     
-    run(`export ADMIN_TOKEN=${token}`)
-    run(`export API_URL=${backendUrl}`)
-    run(`export SUBMISSION_ID=${submissionId}`)
+    exec(`powershell -Command "Copy-Item -R ${testSuiteFolder} ${copyTo}"`, (err, stdErr) => {
+        exec(`powershell -Command "Expand-Archive -Path ${applicantZipsFolder}/${file} -DestinationPath ${unzipTo}"`, (err, stdErr) => {
+            setEnvVars(copyTo, { ADMIN_TOKEN: token, API_URL: backendUrl, SUBMISSION_ID: submissionId })
+                run(`mvn -f ${copyTo} clean install`)
+        })        
+    })
 
-    run(`mvn -f ${copyTo} clean install`)
 
-    run(`unset ADMIN_TOKEN`)
-    run(`unset API_URL`)
-    run(`unset SUBMISSION_ID`)
+
+    // run(`$Env:ADMIN_TOKEN='${token}'`)
+    // run(`$Env:API_URL='${backendUrl}'`)
+    // run(`$Env:SUBMISSION_ID='${submissionId}'`)
+
+
+    // run(`mvn -DargLine="-DADMIN_TOKEN=${token} -DAPI_URL=${backendUrl} -DSUBMISSION_ID=${submissionId}" -f ${copyTo} clean install`)
+
+    // -DargLine="-DWSNSHELL_HOME=conf"
+
+    // run(`$Env:ADMIN_TOKEN=null`)
+    // run(`$Env:API_URL=null`)
+    // run(`$Env:SUBMISSION_ID=null`)
 }
 
 fs.readdir(applicantZipsFolder, async (error, files) => {

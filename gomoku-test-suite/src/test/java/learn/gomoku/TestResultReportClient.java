@@ -69,7 +69,7 @@ public class TestResultReportClient {
     }
 
     private String loadRequiredEnvVar(String key) {
-        String value = System.getenv().get(key);
+        String value = System.getProperties().get(key).toString();
         if (value == null || value.isBlank()) {
             throw new EnvironmentVariableNotFoundException(String.format("Environment variable %s not found", key));
         }
