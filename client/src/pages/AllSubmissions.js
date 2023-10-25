@@ -9,7 +9,9 @@ const AllSubmissions = () => {
     const DEFAULT_FILTERS_STATE = {
         graded: false,
         ungraded: false,
-        gradingBatchId: null
+        gradingBatchId: null,
+        passing: false,
+        failing: false
     }
     const [allSubmissions, setAllSubmissions] = useState([])
     const [filteredSubmissions, setFilteredSubmissions] = useState([])
@@ -41,6 +43,12 @@ const AllSubmissions = () => {
         if (filterState.ungraded) {
             newlyFilteredSubmissions = newlyFilteredSubmissions.filter(s => s.getValue("gradedAt") === null)
         }
+        if (filterState.passing) {
+            newlyFilteredSubmissions = newlyFilteredSubmissions.filter(s => s.getValue("numberOfFailingTests") === 0 && s.getValue("gradedAt") !== null)
+        }
+        if (filterState.failing) {
+            newlyFilteredSubmissions = newlyFilteredSubmissions.filter(s => s.getValue("numberOfFailingTests") > 0 && s.getValue("gradedAt") !== null)
+        }
         if (filterState.gradingBatchId) {
             newlyFilteredSubmissions = newlyFilteredSubmissions.filter(s => s.getValue("gradingBatch") == filterState.gradingBatchId)
         }
@@ -66,9 +74,12 @@ const AllSubmissions = () => {
     return (
         <>
             <h3>All Submissions</h3>
+            {/* TODO: put these inputs into a horizontal rack */}
             <Input type="select" name="gradingBatchId" formState={filterState} setter={setFilterState} options={gradingBatchIds} />
             <Input type="checkbox" name="graded" formState={filterState} setter={setFilterState} />
             <Input type="checkbox" name="ungraded" formState={filterState} setter={setFilterState} />
+            <Input type="checkbox" name="passing" formState={filterState} setter={setFilterState} />
+            <Input type="checkbox" name="failing" formState={filterState} setter={setFilterState} />
             <Table records={filteredSubmissions} keys={ ["gradedAt", "createdAt", "gradingBatch", "numberOfFailingTests", "numberOfPassingTests"] } />
             <button onClick={downloadSelectedZips}>Download selected zips</button>
         </>

@@ -49,14 +49,13 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
     @Override
     @Transactional
     public AppUser create(AppUser user) {
-        final String sql = "insert into app_user (username, external_id, account_setup_token) values (?, ?, ?);";
+        final String sql = "insert into app_user (username, account_setup_token) values (?, ?);";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getUsername());
-            ps.setString(2, user.getExternalId());
-            ps.setString(3, user.getAccountSetupToken());
+            ps.setString(2, user.getAccountSetupToken());
             return ps;
         }, keyHolder);
 

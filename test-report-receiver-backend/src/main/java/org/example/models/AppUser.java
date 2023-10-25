@@ -18,7 +18,6 @@ public class AppUser implements UserDetails {
     private String password;
     private boolean enabled;
     private Collection<GrantedAuthority> authorities;
-    private String externalId;
     private String accountSetupToken;
     private String firstName;
     private String lastName;
@@ -27,7 +26,6 @@ public class AppUser implements UserDetails {
     public AppUser(int appUserId,
                    String firstName,
                    String lastName,
-                   String externalId,
                    String accountSetupToken,
                    boolean hasBeenSetup,
                    String username,
@@ -37,7 +35,6 @@ public class AppUser implements UserDetails {
         this.appUserId = appUserId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.externalId = externalId;
         this.accountSetupToken = accountSetupToken;
         this.hasBeenSetup = hasBeenSetup;
         this.username = username;
@@ -47,9 +44,8 @@ public class AppUser implements UserDetails {
     }
 
     // for initial creation by admin
-    public AppUser(String username, String externalId, String accountSetupToken, List<String> roles) {
+    public AppUser(String username, String accountSetupToken, List<String> roles) {
         this.username = username;
-        this.externalId = externalId;
         this.accountSetupToken = accountSetupToken;
         this.authorities = convertRolesToAuthorities(roles);
     }
@@ -106,10 +102,6 @@ public class AppUser implements UserDetails {
         this.appUserId = appUserId;
     }
 
-    public String getExternalId() {
-        return externalId;
-    }
-
     public String getAccountSetupToken() {
         return accountSetupToken;
     }
@@ -132,6 +124,18 @@ public class AppUser implements UserDetails {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public boolean isHasBeenSetup() {
+        return hasBeenSetup;
+    }
+
+    public void setHasBeenSetup(boolean hasBeenSetup) {
+        this.hasBeenSetup = hasBeenSetup;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @JsonProperty

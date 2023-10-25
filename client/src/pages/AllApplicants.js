@@ -18,7 +18,7 @@ const AllApplicants = () => {
     return (
         <>
             <h3>All Applicants</h3>
-            <Table records={allApplicants} keys={["appUserId", "username", "accountSetupToken", "firstName", "lastName"]} />
+            <Table records={allApplicants} keys={["appUserId", "username", "accountSetupToken", "firstName", "lastName", "setupComplete"]} />
         </>
     )
 }

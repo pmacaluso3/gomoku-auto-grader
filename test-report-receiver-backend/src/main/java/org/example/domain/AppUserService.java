@@ -54,9 +54,8 @@ public class AppUserService implements UserDetailsService {
             return result;
         }
 
-        String externalId = randomStringGenerator.generateRandomString();
         String account_setup_token = randomStringGenerator.generateRandomString();
-        AppUser appUser = new AppUser(username, externalId, account_setup_token, DEFAULT_ROLES);
+        AppUser appUser = new AppUser(username, account_setup_token, DEFAULT_ROLES);
 
         try {
             appUser = repository.create(appUser);

@@ -10,4 +10,8 @@ export default class Applicant extends Record {
         this.accountSetupToken = accountSetupToken
         this.hasBeenSetup = hasBeenSetup
     }
+
+    setupComplete() {
+        return this.hasBeenSetup ? "YES" : "NO"
+    }
 }
