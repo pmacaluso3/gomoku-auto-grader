@@ -20,6 +20,12 @@ public class TestCaseOutcomeJdbcTemplateRepository implements TestCaseOutcomeRep
     }
 
     @Override
+    public TestCaseOutcome findById(int id) {
+        String sql = "select * from test_case_outcome where test_case_outcome_id = ?";
+        return jdbcTemplate.query(sql, new TestCaseOutcomeMapper(), id).stream().findFirst().orElse(null);
+    }
+
+    @Override
     public TestCaseOutcome create(TestCaseOutcome testCaseOutcome) {
         final String sql = "insert into test_case_outcome " +
                 "(test_name, submission_id, success, description, board_state) " +

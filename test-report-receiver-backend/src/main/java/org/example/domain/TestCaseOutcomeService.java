@@ -13,6 +13,19 @@ public class TestCaseOutcomeService {
         this.repository = repository;
     }
 
+    public Result<TestCaseOutcome> findById(int id) {
+        Result<TestCaseOutcome> result = new Result<>();
+
+        TestCaseOutcome testCaseOutcome = repository.findById(id);
+        if (testCaseOutcome == null) {
+            result.addErrorMessage("Could not find test case outcome", ResultType.NOT_FOUND);
+        } else {
+            result.setPayload(testCaseOutcome);
+        }
+
+        return result;
+    }
+
     public Result<TestCaseOutcome> create(TestCaseOutcome testCaseOutcome) {
         Result<TestCaseOutcome> result = validate(testCaseOutcome);
 
@@ -28,7 +41,7 @@ public class TestCaseOutcomeService {
 
         boolean updateResult = repository.update(testCaseOutcome);
         if (updateResult) {
-            result.setPayload(testCaseOutcome);
+            result.setPayload(repository.findById(testCaseOutcome.getTestCaseOutcomeId()));
         } else {
             result.addErrorMessage("Could not find record to update", ResultType.NOT_FOUND);
         }

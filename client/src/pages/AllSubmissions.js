@@ -9,7 +9,7 @@ const AllSubmissions = () => {
     const DEFAULT_FILTERS_STATE = {
         graded: false,
         ungraded: false,
-        gradingBatchId: null,
+        gradingBatchId: "",
         passing: false,
         failing: false
     }
@@ -80,7 +80,7 @@ const AllSubmissions = () => {
             <Input type="checkbox" name="ungraded" formState={filterState} setter={setFilterState} />
             <Input type="checkbox" name="passing" formState={filterState} setter={setFilterState} />
             <Input type="checkbox" name="failing" formState={filterState} setter={setFilterState} />
-            <Table records={filteredSubmissions} keys={ ["gradedAt", "createdAt", "gradingBatch", "numberOfFailingTests", "numberOfPassingTests"] } />
+            <Table records={filteredSubmissions} keys={ ["gradedAt", "createdAt", "gradingBatch", "numberOfFailingTests", "numberOfPassingTests", "link"] } />
             <button onClick={downloadSelectedZips}>Download selected zips</button>
         </>
     )

@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Submission {
     private int submissionId;
@@ -20,9 +19,8 @@ public class Submission {
     private int gradingBatchId;
     private Timestamp createdAt;
     private Timestamp gradedAt;
-
     private List<TestCaseOutcome> testCaseOutcomes = new ArrayList<>();
-
+    private AppUser appUser;
     public Submission(int appUserId, MultipartFile zipFile) {
         this.appUserId = appUserId;
         byte[] bytes = new byte[0];
@@ -101,5 +99,13 @@ public class Submission {
 
     public void setGradedAt(Timestamp gradedAt) {
         this.gradedAt = gradedAt;
+    }
+
+    public AppUser getAppUser() {
+        return appUser;
+    }
+
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
     }
 }

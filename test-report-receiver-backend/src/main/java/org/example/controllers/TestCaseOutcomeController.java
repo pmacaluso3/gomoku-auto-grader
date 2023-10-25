@@ -16,6 +16,12 @@ public class TestCaseOutcomeController {
         this.service = service;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> findById(@PathVariable int id) {
+        Result<TestCaseOutcome> result = service.findById(id);
+        return ControllerHelper.convertResultToHttpResponse(result);
+    }
+
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody TestCaseOutcome testCaseOutcome) {
         Result<TestCaseOutcome> result = service.create(testCaseOutcome);

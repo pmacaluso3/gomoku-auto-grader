@@ -50,7 +50,9 @@ public class AppUser implements UserDetails {
         this.authorities = convertRolesToAuthorities(roles);
     }
 
-    public AppUser(){}
+    public AppUser(){
+        this.authorities = convertRolesToAuthorities(List.of());
+    }
 
     private static Collection<GrantedAuthority> convertRolesToAuthorities(List<String> roles) {
         return roles.stream()

@@ -16,7 +16,7 @@ public class TestCaseOutcomeMapper implements RowMapper<TestCaseOutcome> {
                 rs.getBoolean("success"),
                 rs.getBoolean("has_been_manually_edited"),
                 rs.getString("description"),
-                rs.getString("boardState")
+                rs.getString("board_state")
         );
     }
 }

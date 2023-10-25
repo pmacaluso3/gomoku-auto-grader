@@ -33,7 +33,7 @@ const Input = ({ name, type, formState, setter, options }) => {
     let tag
     if (type === "select") {
         tag = <select { ...inputProps }>
-            { options.map(o => <option value={o}>{o}</option>)}
+            { options.map(o => <option key={o} value={o}>{o}</option>)}
         </select>
     } else {
         tag = <input { ...inputProps } />

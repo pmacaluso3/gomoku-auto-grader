@@ -13,7 +13,6 @@ create table app_user (
     enabled bit not null default(0),
     first_name text,
     last_name text,
-    external_id text,
     account_setup_token text,
     has_been_setup boolean default false
 );

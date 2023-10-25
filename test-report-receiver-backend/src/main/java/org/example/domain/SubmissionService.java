@@ -89,15 +89,26 @@ public class SubmissionService {
         return result;
     }
 
+    public Result<Submission> findById(int id) {
+        Result<Submission> result = new Result<>();
+        Submission submission = repository.findById(id);
+        if (submission == null) {
+            result.addErrorMessage("Could not find submission", ResultType.NOT_FOUND);
+        } else {
+            result.setPayload(submission);
+        }
+        return result;
+    }
+
+    private List<Submission> findWhereIdInList(List<Integer> ids) {
+        return repository.findWhereIdInList(ids);
+    }
+
     private Result<Submission> validate(Submission submission) {
         Result<Submission> result = new Result<>();
         if (submission.getZipFile() == null) {
             result.addErrorMessage("zipFile cannot be blank", ResultType.INVALID);
         }
         return result;
-    }
-
-    public List<Submission> findWhereIdInList(List<Integer> ids) {
-        return repository.findWhereIdInList(ids);
     }
 }

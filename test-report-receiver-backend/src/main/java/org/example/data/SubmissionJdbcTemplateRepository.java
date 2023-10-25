@@ -1,5 +1,6 @@
 package org.example.data;
 
+import org.example.data.extractors.SubmissionWithTestCaseOutcomesAndAppUserExtractor;
 import org.example.data.extractors.SubmissionWithTestCaseOutcomesExtractor;
 import org.example.data.mappers.SubmissionMapper;
 import org.example.models.Submission;
@@ -55,6 +56,16 @@ public class SubmissionJdbcTemplateRepository implements SubmissionRepository {
         String placeholders = String.join(",", Collections.nCopies(ids.size(), "?"));
         String sql = String.format("select * from submission where submission_id in (%s)", placeholders);
         return jdbcTemplate.query(sql, new SubmissionMapper(), ids.toArray());
+    }
+
+    @Override
+    public Submission findById(int id) {
+        String sql = "select s.*, tco.*, au.* from submission s " +
+                "left outer join test_case_outcome tco on s.submission_id = tco.submission_id " +
+                "join app_user au on s.app_user_id = au.app_user_id " +
+                "where s.submission_id = ?";
+        return jdbcTemplate.query(sql, new SubmissionWithTestCaseOutcomesAndAppUserExtractor(), id)
+                .stream().findFirst().orElse(null);
     }
 
     @Override

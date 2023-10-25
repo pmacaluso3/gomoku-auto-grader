@@ -1,8 +1,8 @@
 
 TODO:
     - POSTing to test_case_outcomes needs to include board state
-    - manually edit TCO 
-
+    - afterTwoHumanMoves failing after de-emoji-fication
+    - send emails
 
 user experience questions:
     - when applicant logs in w/ blank password before setup, should service tell them they need to go to setup?

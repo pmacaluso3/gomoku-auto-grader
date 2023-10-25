@@ -62,6 +62,12 @@ public class SubmissionsController {
                 .body(resource);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> findById(@PathVariable int id) {
+        Result<Submission> result = service.findById(id);
+        return ControllerHelper.convertResultToHttpResponse(result);
+    }
+
     @PostMapping
     public ResponseEntity<Object> create(@RequestPart("zipFile") MultipartFile zipFile) throws IOException, SQLException {
         Submission submission = new Submission(getAuthorizedUserId(), zipFile);

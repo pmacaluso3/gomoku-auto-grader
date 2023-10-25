@@ -13,6 +13,8 @@ public interface SubmissionRepository {
 
     public List<Submission> findWhereIdInList(List<Integer> ids);
 
+    public Submission findById(int id);
+
     public Submission create(Submission submission);
 
     public Submission markGraded(Submission submission);

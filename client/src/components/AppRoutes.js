@@ -13,6 +13,8 @@ import MySubmissions from "../pages/MySubmissions"
 import AllSubmissions from "../pages/AllSubmissions";
 import GradingBatches from "../pages/GradingBatches";
 import AllApplicants from "../pages/AllApplicants";
+import Submission from "../pages/Submission";
+import TestCaseOutcome from "../pages/TestCaseOutcome";
 
 const AppRoutes = () => {
     const { user } = useContext(UserContext)
@@ -42,6 +44,14 @@ const AppRoutes = () => {
           <Route
             path="/allSubmissions"
             element={loggedIn(<AllSubmissions />, user, "ADMIN")}
+          />
+          <Route
+            path="/submissions/:submissionId"
+            element={loggedIn(<Submission />, user, "ADMIN")}
+          />
+          <Route
+            path="/testCaseOutcomes/:testCaseOutcomeId"
+            element={loggedIn(<TestCaseOutcome />, user, "ADMIN")}
           />
 
           {/* logged in applicant only */}
