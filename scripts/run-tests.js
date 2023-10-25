@@ -4,9 +4,9 @@ const { exec } = require("child_process")
 const backendUrl = process.env.BACKEND_URL
 const username = process.env.ADMIN_USERNAME
 const password = process.env.ADMIN_PASSWORD
-const applicantZipsFolder = `${__dirname}/applicant-zips`
-const unzippedSubmissionsFolder = `${__dirname}/unzipped-submissions`
-const testSuiteFolder = `${__dirname}/gomoku-test-suite`
+const applicantZipsFolder = `${__dirname}/../applicant-zips`
+const unzippedSubmissionsFolder = `${__dirname}/../unzipped-submissions`
+const testSuiteFolder = `${__dirname}/../gomoku-test-suite`
 const unzipDestination = "src/main/java/learn/gomoku"
 
 const authenticate = async () => {
