@@ -1,6 +1,0 @@
-
-TODO:
-    - styling
-    - deployment?
-    - stable jwt secret
-    - coming soon's from readme

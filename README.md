@@ -17,3 +17,10 @@ These steps presume that `test-report-receiver-backend` has been deployed (along
 1. Some tests report their final board state for visual inspection. These don't contain any assertions, so they will always start off in the passing state. Admin can look at those and mark them as failed if they don't look right. If desired, more tests could report their board state in addition to their pass/fail value.
 1. Once manual review is done, admin can export the list of passing applicants (coming soon) and archive the old submissions (coming soon).
 1. Admin should run `node scripts/cleanup.js` to clean out the temp directories within this local repo.
+
+
+TODO:
+    - styling
+    - deployment?
+    - stable jwt secret
+    - coming soon's from readme
