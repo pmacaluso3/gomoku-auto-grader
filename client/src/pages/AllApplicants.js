@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import UserContext from "../contexts/UserContext"
 import Table from "../components/Table"
+import Applicant from "../models/Applicant"
 
 const AllApplicants = () => {
     const [allApplicants, setAllApplicants] = useState([])
@@ -10,7 +11,7 @@ const AllApplicants = () => {
     const fetchAllApplicants = () => {
         userObj.authGet("/users/applicants")
         .then(response => response.json())
-        .then(body => setAllApplicants(body))
+        .then(applicants => setAllApplicants(applicants.map(a => new Applicant(a))))
     }
     useEffect(fetchAllApplicants, [])
 

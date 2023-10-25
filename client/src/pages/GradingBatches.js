@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import UserContext from "../contexts/UserContext"
 import Table from "../components/Table"
+import GradingBatch from "../models/GradingBatch"
 
 const GradingBatches = () => {
     const [gradingBatches, setGradingBatches] = useState([])
@@ -10,7 +11,7 @@ const GradingBatches = () => {
     const fetchGradingBatches = () => {
         userObj.authGet("/grading_batches")
         .then(response => response.json())
-        .then(body => setGradingBatches(body))
+        .then(body => setGradingBatches(body.map(gb => new GradingBatch(gb))))
     }
     useEffect(fetchGradingBatches, [])
 

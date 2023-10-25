@@ -22,16 +22,17 @@ public class TestCaseOutcomeJdbcTemplateRepository implements TestCaseOutcomeRep
     @Override
     public TestCaseOutcome create(TestCaseOutcome testCaseOutcome) {
         final String sql = "insert into test_case_outcome " +
-                "(submission_id, success, description, board_state) " +
-                "values (?, ?, ?, ?);";
+                "(test_name, submission_id, success, description, board_state) " +
+                "values (?, ?, ?, ?, ?);";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, testCaseOutcome.getSubmissionId());
-            ps.setBoolean(2, testCaseOutcome.isSuccess());
-            ps.setString(3, testCaseOutcome.getDescription());
-            ps.setString(4, testCaseOutcome.getBoardState());
+            ps.setString(1, testCaseOutcome.getTestName());
+            ps.setInt(2, testCaseOutcome.getSubmissionId());
+            ps.setBoolean(3, testCaseOutcome.isSuccess());
+            ps.setString(4, testCaseOutcome.getDescription());
+            ps.setString(5, testCaseOutcome.getBoardState());
             return ps;
         }, keyHolder);
 

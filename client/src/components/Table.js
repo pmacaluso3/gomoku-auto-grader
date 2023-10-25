@@ -8,7 +8,7 @@ const Table = ({ keys, records }) => {
             </thead>
             <tbody>
                 { records && records.map(r => <tr key={JSON.stringify(r)}>
-                    { keys.map(k => <td key={JSON.stringify(r) + `-key-${k}`}>{ r[k] }</td>) }
+                    { keys.map(k => <td key={JSON.stringify(r) + `-key-${k}`}>{ r.getValue(k) }</td>) }
                 </tr>) }
             </tbody>
         </table>

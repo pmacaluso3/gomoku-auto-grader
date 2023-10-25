@@ -1,9 +1,6 @@
 
 TODO:
-    - only downloading one submission in zip file? what happened to the others?
-    - POSTing to test_case_outcomes needs to include test name
-        - also should eventually include board state
-    - display number of passes & fails in submissions tables
+    - POSTing to test_case_outcomes needs to include board state
     - manually edit TCO 
 
 

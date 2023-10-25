@@ -39,6 +39,10 @@ public class TestCaseOutcomeService {
     private Result<TestCaseOutcome> validate(TestCaseOutcome testCaseOutcome) {
         Result<TestCaseOutcome> result = new Result<>();
 
+        if (testCaseOutcome.getTestName() == null || testCaseOutcome.getTestName().isBlank()) {
+            result.addErrorMessage("Name must be present", ResultType.INVALID);
+        }
+
         if (testCaseOutcome.getSubmissionId() == 0) {
             result.addErrorMessage("Must belong to a submission", ResultType.INVALID);
         }

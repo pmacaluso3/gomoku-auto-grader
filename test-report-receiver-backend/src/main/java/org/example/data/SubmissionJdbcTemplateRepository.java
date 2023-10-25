@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,9 +52,9 @@ public class SubmissionJdbcTemplateRepository implements SubmissionRepository {
 
     @Override
     public List<Submission> findWhereIdInList(List<Integer> ids) {
-        String joinedIds = String.join(",", ids.stream().map(i -> i.toString()).collect(Collectors.toList()));
-        String sql = "select * from submission where submission_id in (?)";
-        return jdbcTemplate.query(sql, new SubmissionMapper(), joinedIds);
+        String placeholders = String.join(",", Collections.nCopies(ids.size(), "?"));
+        String sql = String.format("select * from submission where submission_id in (%s)", placeholders);
+        return jdbcTemplate.query(sql, new SubmissionMapper(), ids.toArray());
     }
 
     @Override

@@ -2,26 +2,51 @@ import { useContext, useEffect, useState } from "react"
 
 import UserContext from "../contexts/UserContext"
 import Table from "../components/Table"
+import Input from "../components/Input"
+import Submission from "../models/Submission"
 
 const AllSubmissions = () => {
+    const DEFAULT_FILTERS_STATE = {
+        graded: false,
+        ungraded: false,
+        gradingBatchId: null
+    }
     const [allSubmissions, setAllSubmissions] = useState([])
     const [filteredSubmissions, setFilteredSubmissions] = useState([])
+    const [filterState, setFilterState] = useState(DEFAULT_FILTERS_STATE)
+    const [gradingBatchIds, setGradingBatchIds] = useState([])
     
     const userObj = useContext(UserContext)
 
     const fetchSubmissions = () => {
         userObj.authGet("/submissions/all")
         .then(response => response.json())
-        .then(body => setAllSubmissions(body))
+        .then(submissions => setAllSubmissions(submissions.map(s => new Submission(s))))
     }
     useEffect(fetchSubmissions, [])
 
+    const getGradingBatchIdsFromSubmissions = () => {
+        const ids = allSubmissions.map(s => s.getValue("gradingBatchId"))
+        const idsWithBlank = ["", ...ids]
+        const uniqueIds = Array.from(new Set(idsWithBlank)).filter(i => i !== 0)
+        setGradingBatchIds(uniqueIds)
+    }
+    useEffect(getGradingBatchIdsFromSubmissions, [allSubmissions])
+
     const applyFilters = () => {
-        const newlyFilteredSubmissions = [...allSubmissions]
-        // apply filters here
+        let newlyFilteredSubmissions = [...allSubmissions]
+        if (filterState.graded) {
+            newlyFilteredSubmissions = newlyFilteredSubmissions.filter(s => s.getValue("gradedAt") !== null)
+        }
+        if (filterState.ungraded) {
+            newlyFilteredSubmissions = newlyFilteredSubmissions.filter(s => s.getValue("gradedAt") === null)
+        }
+        if (filterState.gradingBatchId) {
+            newlyFilteredSubmissions = newlyFilteredSubmissions.filter(s => s.getValue("gradingBatch") == filterState.gradingBatchId)
+        }
         setFilteredSubmissions(newlyFilteredSubmissions)
     }
-    useEffect(applyFilters, [allSubmissions])
+    useEffect(applyFilters, [allSubmissions, filterState])
 
     const downloadSelectedZips = () => {
         const ids = filteredSubmissions.map(s => s.submissionId).join(",")
@@ -41,7 +66,10 @@ const AllSubmissions = () => {
     return (
         <>
             <h3>All Submissions</h3>
-            <Table records={filteredSubmissions} keys={ ["gradedAt", "createdAt"] } />
+            <Input type="select" name="gradingBatchId" formState={filterState} setter={setFilterState} options={gradingBatchIds} />
+            <Input type="checkbox" name="graded" formState={filterState} setter={setFilterState} />
+            <Input type="checkbox" name="ungraded" formState={filterState} setter={setFilterState} />
+            <Table records={filteredSubmissions} keys={ ["gradedAt", "createdAt", "gradingBatch", "numberOfFailingTests", "numberOfPassingTests"] } />
             <button onClick={downloadSelectedZips}>Download selected zips</button>
         </>
     )
