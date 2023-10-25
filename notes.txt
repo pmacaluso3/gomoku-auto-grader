@@ -1,8 +1,11 @@
 
 TODO:
-    - POSTing to test_case_outcomes needs to include board state
-    - afterTwoHumanMoves failing after de-emoji-fication
     - send emails
+    - styling
+    - deployment?
+    - stable jwt secret
+    - readme
+    - move node tools for scripts into folder
 
 user experience questions:
     - when applicant logs in w/ blank password before setup, should service tell them they need to go to setup?

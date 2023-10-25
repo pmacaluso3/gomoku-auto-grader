@@ -1,4 +1,13 @@
 const Table = ({ keys, records }) => {
+    const getTdFromRecordAndKey = (record, key) => {
+        const value = record.getValue(key)
+        if (value && value.isHtml) {
+            return <td key={JSON.stringify(record) + `-key-${key}`}  dangerouslySetInnerHTML={{ __html: value.value }} />
+        } else {
+            return <td key={JSON.stringify(record) + `-key-${key}`}>{value}</td>
+        }
+    }
+
     return (
         <table>
             <thead>
@@ -8,7 +17,7 @@ const Table = ({ keys, records }) => {
             </thead>
             <tbody>
                 { records && records.map(r => <tr key={JSON.stringify(r)}>
-                    { keys.map(k => <td key={JSON.stringify(r) + `-key-${k}`}>{ r.getValue(k) }</td>) }
+                    { keys.map(k => getTdFromRecordAndKey(r, k)) }
                 </tr>) }
             </tbody>
         </table>

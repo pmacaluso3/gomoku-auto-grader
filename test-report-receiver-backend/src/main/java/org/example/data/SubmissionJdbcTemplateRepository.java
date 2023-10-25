@@ -27,10 +27,11 @@ public class SubmissionJdbcTemplateRepository implements SubmissionRepository {
 
     @Override
     public List<Submission> findAll() {
-        String sql = "select s.*, tco.* from submission s " +
-                "left outer join test_case_outcome tco on s.submission_id = tco.submission_id";
+        String sql = "select s.*, tco.*, au.* from submission s " +
+                "left outer join test_case_outcome tco on s.submission_id = tco.submission_id " +
+                "join app_user au on s.app_user_id = au.app_user_id ";
 
-        return jdbcTemplate.query(sql, new SubmissionWithTestCaseOutcomesExtractor());
+        return jdbcTemplate.query(sql, new SubmissionWithTestCaseOutcomesAndAppUserExtractor());
     }
 
     @Override

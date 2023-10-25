@@ -1,7 +1,6 @@
 require("dotenv").config()
 const fs = require("fs")
 const { exec } = require("child_process")
-const { stderr } = require("process")
 const backendUrl = process.env.BACKEND_URL
 const username = process.env.ADMIN_USERNAME
 const password = process.env.ADMIN_PASSWORD
@@ -9,17 +8,6 @@ const applicantZipsFolder = `${__dirname}/applicant-zips`
 const unzippedSubmissionsFolder = `${__dirname}/unzipped-submissions`
 const testSuiteFolder = `${__dirname}/gomoku-test-suite`
 const unzipDestination = "src/main/java/learn/gomoku"
-
-const run = (cmd) => {
-    exec(`powershell -Command "${cmd}"`, (err, stdErr) => {
-        if (err) {
-            console.log("err: ", err)
-        }
-        if (stderr && stdErr.length > 0) {
-            console.log("stdErr: ", stdErr)
-        }
-    })
-}
 
 const authenticate = async () => {
     const response = await fetch(backendUrl + "/users/authenticate", {
@@ -47,8 +35,8 @@ const createGradingBatch = async (token) => {
     return gradingBatchId
 }
 
-const markGraded = async ({ submissionId, gradingBatchId, token }) => {
-    const response = await fetch(backendUrl + "/submissions/mark_graded", {
+const markGraded = ({ submissionId, gradingBatchId, token }) => {
+    fetch(backendUrl + "/submissions/mark_graded", {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -97,31 +85,13 @@ const handleZipFile = ({ file, token, gradingBatchId }) => {
     const submissionId = file.replace(/.zip$/, "")
     markGraded({ submissionId, gradingBatchId, token })
     const copyTo = `${unzippedSubmissionsFolder}/${file.replace(".zip", "")}`
-    const unzipTo = `${copyTo}/${unzipDestination}`
-    // run(`Copy-Item -R ${testSuiteFolder} ${copyTo}`)
-    // run(`Expand-Archive -Path ${applicantZipsFolder}/${file} -DestinationPath ${unzipTo}`)
-    
-    exec(`powershell -Command "Copy-Item -R ${testSuiteFolder} ${copyTo}"`, (err, stdErr) => {
-        exec(`powershell -Command "Expand-Archive -Path ${applicantZipsFolder}/${file} -DestinationPath ${unzipTo}"`, (err, stdErr) => {
+    const unzipTo = `${copyTo}/${unzipDestination}`    
+    exec(`powershell -Command "Copy-Item -R ${testSuiteFolder} ${copyTo}"`, (_err, _stdErr) => {
+        exec(`powershell -Command "Expand-Archive -Path ${applicantZipsFolder}/${file} -DestinationPath ${unzipTo}"`, (_err, _stdErr) => {
             setEnvVars(copyTo, { ADMIN_TOKEN: token, API_URL: backendUrl, SUBMISSION_ID: submissionId })
-                run(`mvn -f ${copyTo} clean install`)
+            exec(`powershell -Command "mvn -f ${copyTo} clean install"`)
         })        
     })
-
-
-
-    // run(`$Env:ADMIN_TOKEN='${token}'`)
-    // run(`$Env:API_URL='${backendUrl}'`)
-    // run(`$Env:SUBMISSION_ID='${submissionId}'`)
-
-
-    // run(`mvn -DargLine="-DADMIN_TOKEN=${token} -DAPI_URL=${backendUrl} -DSUBMISSION_ID=${submissionId}" -f ${copyTo} clean install`)
-
-    // -DargLine="-DWSNSHELL_HOME=conf"
-
-    // run(`$Env:ADMIN_TOKEN=null`)
-    // run(`$Env:API_URL=null`)
-    // run(`$Env:SUBMISSION_ID=null`)
 }
 
 fs.readdir(applicantZipsFolder, async (error, files) => {

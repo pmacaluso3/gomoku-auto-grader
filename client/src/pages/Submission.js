@@ -14,9 +14,8 @@ const Submission = () => {
         hasBoard: false
     }
     const [filterState, setFilterState] = useState(DEFAULT_FILTER_STATE)
-    const [submission, setSubmission] = useState({})
+    const [submission, setSubmission] = useState(new SubmissionModel({}))
     const [filteredTestCases, setFilteredTestCases] = useState(submission.testCaseOutcomes || [])
-    const [applicant, setApplicant] = useState({})
 
     const { submissionId } = useParams()
 
@@ -30,13 +29,6 @@ const Submission = () => {
     }
     useEffect(fetchSubmission, [submissionId])
 
-    const setApplicantFromSubmission = () => {
-        if (submission && submission.appUser) {
-            setApplicant(new Applicant(submission.appUser))
-        }
-    }
-    useEffect(setApplicantFromSubmission, [submission])
-
     const filterTestCases = () => {
         let newlyFilteredTestCases
         if (submission.testCaseOutcomes) {
@@ -46,15 +38,15 @@ const Submission = () => {
         }
         
         if (filterState.passing) {
-            newlyFilteredTestCases = newlyFilteredTestCases.filter(t => t.success)
+            newlyFilteredTestCases = newlyFilteredTestCases.filter(t => t.getValue("success"))
         }
 
         if (filterState.failing) {
-            newlyFilteredTestCases = newlyFilteredTestCases.filter(t => !t.success)
+            newlyFilteredTestCases = newlyFilteredTestCases.filter(t => !t.getValue("success"))
         }
 
         if (filterState.hasBoard) {
-            newlyFilteredTestCases = newlyFilteredTestCases.filter(t => t.boardState)
+            newlyFilteredTestCases = newlyFilteredTestCases.filter(t => t.getValue("boardState"))
         }
 
         setFilteredTestCases(newlyFilteredTestCases)
@@ -64,11 +56,11 @@ const Submission = () => {
     return (
         <>
             <h3>Submission {submissionId}</h3>
-            <div>By applicant #{applicant.appUserId}, {applicant.firstName} {applicant.lastName} (username {applicant.username})</div>
+            <div>By {submission.getValue("userInfo")}</div>
             <Input name="passing" type="checkbox" formState={filterState} setter={setFilterState} />
             <Input name="failing" type="checkbox" formState={filterState} setter={setFilterState} />
             <Input name="hasBoard" type="checkbox" formState={filterState} setter={setFilterState} />
-            <Table records={filteredTestCases} keys={["testName", "passed", "description", "boardState",, "manuallyEdited", "markAsSuccessful"]}/>
+            <Table records={filteredTestCases} keys={["testName", "passed", "description", "board", "manuallyEdited", "markAsSuccessful"]}/>
         </>
     )
 }

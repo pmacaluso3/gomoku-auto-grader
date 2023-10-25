@@ -11,7 +11,8 @@ const AllSubmissions = () => {
         ungraded: false,
         gradingBatchId: "",
         passing: false,
-        failing: false
+        failing: false,
+        userInfo: ""
     }
     const [allSubmissions, setAllSubmissions] = useState([])
     const [filteredSubmissions, setFilteredSubmissions] = useState([])
@@ -52,6 +53,9 @@ const AllSubmissions = () => {
         if (filterState.gradingBatchId) {
             newlyFilteredSubmissions = newlyFilteredSubmissions.filter(s => s.getValue("gradingBatch") == filterState.gradingBatchId)
         }
+        if (filterState.userInfo) {
+            newlyFilteredSubmissions = newlyFilteredSubmissions.filter(t => t.getValue("userInfo").includes(filterState.userInfo))
+        }
         setFilteredSubmissions(newlyFilteredSubmissions)
     }
     useEffect(applyFilters, [allSubmissions, filterState])
@@ -80,7 +84,8 @@ const AllSubmissions = () => {
             <Input type="checkbox" name="ungraded" formState={filterState} setter={setFilterState} />
             <Input type="checkbox" name="passing" formState={filterState} setter={setFilterState} />
             <Input type="checkbox" name="failing" formState={filterState} setter={setFilterState} />
-            <Table records={filteredSubmissions} keys={ ["gradedAt", "createdAt", "gradingBatch", "numberOfFailingTests", "numberOfPassingTests", "link"] } />
+            <Input name="userInfo" type="text" formState={filterState} setter={setFilterState} />
+            <Table records={filteredSubmissions} keys={ ["submissionId", "gradedAt", "createdAt", "gradingBatch", "numberOfFailingTests", "numberOfPassingTests", "link", "userInfo"] } />
             <button onClick={downloadSelectedZips}>Download selected zips</button>
         </>
     )

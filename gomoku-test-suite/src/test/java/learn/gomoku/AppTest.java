@@ -145,38 +145,20 @@ class AppTest {
         void afterOneHumanMove(TestInfo testInfo) {
             ByteArrayOutputStream stdout = captureStdOut();
 
-            Gomoku game = loadScript("boardPrinting/afterOneHumanMove");
-
-//            String expectedBoardState = boardState("afterOneHumanMove").replaceAll("\\s", "");
-//            String actualBoardState = stdout.toString().replaceAll("\\s", "");
-
-            // WIP: what's the mismatch here
-//            assertTrue(stdout.toString().replaceAll("\\s", "").contains(boardState("afterOneHumanMove").replaceAll("//s", "")));
-
-            reportHelper.reportTestCases((unused) -> {
-                int numberOfBlanks = (15 * 15) - 1;
-                assertEquals(numberOfBlanks, countInstancesOfCharacterInString(BLANK_SPACE_CHAR, stdout.toString()));
-                assertEquals(1, countInstancesOfCharacterInString(BLACK_STONE_CHAR, stdout.toString()));
-                assertTrue(stdout.toString().contains("01 02 03 04 05 06 07 08 09 10 11 12 13 14 15"));
+            reportHelper.reportBoardState((unused) -> {
+                loadScript("boardPrinting/afterOneHumanMove");
+                return stdout.toString();
             }, testInfo);
-
-            // TODO: report board state here
         }
 
         @Test
         void afterTwoHumanMoves(TestInfo testInfo) {
             ByteArrayOutputStream stdout = captureStdOut();
 
-            Gomoku game = loadScript("boardPrinting/afterTwoHumanMoves");
-
-            reportHelper.reportTestCases((unused) -> {
-                int numberOfBlanks = ((15 * 15) - 1) + ((15 * 15 - 2)); // two printed boards
-                assertEquals(numberOfBlanks, countInstancesOfCharacterInString(BLANK_SPACE_CHAR, stdout.toString()));
-                assertEquals(2, countInstancesOfCharacterInString(BLACK_STONE_CHAR, stdout.toString()));
-                assertEquals(1, countInstancesOfCharacterInString(WHITE_STONE_CHAR, stdout.toString()));
+            reportHelper.reportBoardState((unused) -> {
+                loadScript("boardPrinting/afterTwoHumanMoves");
+                return stdout.toString();
             }, testInfo);
-
-            // TODO: report board state here
         }
     }
 

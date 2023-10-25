@@ -15,15 +15,21 @@ export default class Submission extends Record {
     }
 
     numberOfPassingTests() {
-        return this.testCaseOutcomes.filter(tco => tco.success && tco.boardState === null).length
+        if (this.gradedAt === null) return null
+        return this.testCaseOutcomes.filter(tco => tco.success).length
     }
 
     numberOfFailingTests() {
-        return this.testCaseOutcomes.filter(tco => !tco.success && tco.boardState === null).length
+        if (this.gradedAt === null) return null
+        return this.testCaseOutcomes.filter(tco => !tco.success).length
     } 
 
     gradingBatch() {
         return this.gradedAt === null ? null : this.gradingBatchId
+    }
+
+    userInfo() {
+        return this.appUser && `${this.appUser.firstName} ${this.appUser.lastName} (username: ${this.appUser.username}, id: ${this.appUser.appUserId})`
     }
 
     link() {

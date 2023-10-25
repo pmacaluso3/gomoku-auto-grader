@@ -21,6 +21,13 @@ export default class TestCaseOutcome extends Record {
         return this.hasBeenManuallyEdited ? "YES" : "NO"
     }
 
+    board() {
+        return this.boardState && {
+            isHtml: true,
+            value: this.boardState.replaceAll("\r\n", "<br/>")
+        }
+    }
+
     markAsSuccessful() {
         return <Link to={`/testCaseOutcomes/${this.testCaseOutcomeId}`}>Modify?</Link>
     }
