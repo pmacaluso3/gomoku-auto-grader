@@ -38,7 +38,7 @@ const Login = () => {
                     formState={formState}
                     setter={setFormState}
                 />)}
-                <button type="submit">Log In</button>
+                <button className="btn btn-primary" type="submit">Log In</button>
             </form>
         </>
     )

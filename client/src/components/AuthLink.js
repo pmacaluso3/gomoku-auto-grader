@@ -4,16 +4,16 @@ import { Link } from "react-router-dom"
 import abstractConditionalUserElement from "../utils/abstractConditionalUserElement"
 import UserContext from "../contexts/UserContext"
 
-const AuthLink = ({ to, text, loggedIn, requiredRole }) => {
+const AuthLink = ({ to, text, loggedIn, requiredRole, onClick }) => {
     const userObj = useContext(UserContext)
     const user = userObj && userObj.user
 
     return abstractConditionalUserElement({
-        elementIfYes: <Link to={to}>{text}</Link>,
+        elementIfYes: <li className="nav-item"><Link className="nav-link" to={to}>{text}</Link></li>,
         elementIfNo: null,
         loggedIn,
         user,
-        requiredRole
+        requiredRole,
     })
 }
 

@@ -18,7 +18,7 @@ const MySubmissions = () => {
     return (
         <>
             <h3>My Submissions</h3>
-            <Table records={submissions} keys={["createdAt", "gradedAt", "numberOfPassingTests", "numberOfFailingTests"]} />
+            <Table records={submissions} keys={["timeCreated", "timeGraded", "numberOfPassingTests", "numberOfFailingTests"]} />
         </>
     )
 }

@@ -12,6 +12,6 @@ export default class Applicant extends Record {
     }
 
     setupComplete() {
-        return this.hasBeenSetup ? "YES" : "NO"
+        return this.hasBeenSetup ? "✅" : "❌"
     }
 }

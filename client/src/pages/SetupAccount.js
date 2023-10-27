@@ -45,7 +45,7 @@ const SetupAccount = () => {
                     formState={formState}
                     setter={setFormState}
                 />)}
-                <button type="submit">Setup!</button>
+                <button className="btn btn-primary" type="submit">Setup!</button>
             </form>
         </>
     )

@@ -1,18 +1,20 @@
+import humanize from "../utils/humanize"
+
 const Table = ({ keys, records }) => {
     const getTdFromRecordAndKey = (record, key) => {
         const value = record.getValue(key)
         if (value && value.isHtml) {
-            return <td key={JSON.stringify(record) + `-key-${key}`}  dangerouslySetInnerHTML={{ __html: value.value }} />
+            return <td className="monospace" key={JSON.stringify(record) + `-key-${key}`}  dangerouslySetInnerHTML={{ __html: value.value }} />
         } else {
             return <td key={JSON.stringify(record) + `-key-${key}`}>{value}</td>
         }
     }
 
     return (
-        <table>
+        <table className="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
-                    { keys && keys.map(k => <th key={`header-cell-${k}`}>{k}</th>)}
+                    { keys && keys.map(k => <th key={`header-cell-${k}`}>{humanize(k)}</th>)}
                 </tr>
             </thead>
             <tbody>

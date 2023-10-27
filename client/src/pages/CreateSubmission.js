@@ -36,7 +36,7 @@ const CreateSubmission = () => {
             <Errors errors={errors} />
             <form id="submission-form" onSubmit={handleSubmit}>
                 <Input name="zipFile" type="file" formState={formState} setter={setFormState} />
-                <button type="submit">Submit!</button>
+                <button className="btn btn-primary" type="submit">Submit!</button>
             </form>
         </>
     )

@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import UserContext from "../contexts/UserContext"
 import SubmissionModel from "../models/Submission"
-import Applicant from "../models/Applicant"
 import Table from "../components/Table"
 import Input from "../components/Input"
 import TestCaseOutcome from "../models/TestCaseOutcome"
@@ -57,10 +56,12 @@ const Submission = () => {
         <>
             <h3>Submission {submissionId}</h3>
             <div>By {submission.getValue("userInfo")}</div>
-            <Input name="passing" type="checkbox" formState={filterState} setter={setFilterState} />
-            <Input name="failing" type="checkbox" formState={filterState} setter={setFilterState} />
-            <Input name="hasBoard" type="checkbox" formState={filterState} setter={setFilterState} />
-            <Table records={filteredTestCases} keys={["testName", "passed", "description", "board", "manuallyEdited", "markAsSuccessful"]}/>
+            <div className="filter-controls spaced">
+                <Input name="passing" type="checkbox" formState={filterState} setter={setFilterState} />
+                <Input name="failing" type="checkbox" formState={filterState} setter={setFilterState} />
+                <Input name="hasBoard" type="checkbox" formState={filterState} setter={setFilterState} />
+            </div>
+            <Table records={filteredTestCases} keys={["testName", "passed", "description", "board", "manuallyEdited", "changeResult"]}/>
         </>
     )
 }

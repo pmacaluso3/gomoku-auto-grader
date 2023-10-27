@@ -42,9 +42,11 @@ function App() {
   return (
     <UserContext.Provider value={{ user, logout, login, ...authRequests }}>
       <BrowserRouter>
-        <Nav />
-        <h1>Applicant Submissions</h1>
-        <AppRoutes />
+        <div className="container">
+          <Nav />
+          <h1>Applicant Submissions</h1>
+          <AppRoutes />
+        </div>
       </BrowserRouter>    
     </UserContext.Provider>
   );

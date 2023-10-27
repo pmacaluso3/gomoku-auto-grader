@@ -51,7 +51,7 @@ const AllSubmissions = () => {
             newlyFilteredSubmissions = newlyFilteredSubmissions.filter(s => s.getValue("numberOfFailingTests") > 0 && s.getValue("gradedAt") !== null)
         }
         if (filterState.gradingBatchId) {
-            newlyFilteredSubmissions = newlyFilteredSubmissions.filter(s => s.getValue("gradingBatch") == filterState.gradingBatchId)
+            newlyFilteredSubmissions = newlyFilteredSubmissions.filter(s => s.getValue("gradingBatch") === parseInt(filterState.gradingBatchId))
         }
         if (filterState.userInfo) {
             newlyFilteredSubmissions = newlyFilteredSubmissions.filter(t => t.getValue("userInfo").includes(filterState.userInfo))
@@ -78,15 +78,16 @@ const AllSubmissions = () => {
     return (
         <>
             <h3>All Submissions</h3>
-            {/* TODO: put these inputs into a horizontal rack */}
-            <Input type="select" name="gradingBatchId" formState={filterState} setter={setFilterState} options={gradingBatchIds} />
-            <Input type="checkbox" name="graded" formState={filterState} setter={setFilterState} />
-            <Input type="checkbox" name="ungraded" formState={filterState} setter={setFilterState} />
-            <Input type="checkbox" name="passing" formState={filterState} setter={setFilterState} />
-            <Input type="checkbox" name="failing" formState={filterState} setter={setFilterState} />
-            <Input name="userInfo" type="text" formState={filterState} setter={setFilterState} />
-            <Table records={filteredSubmissions} keys={ ["submissionId", "gradedAt", "createdAt", "gradingBatch", "numberOfFailingTests", "numberOfPassingTests", "link", "userInfo"] } />
-            <button onClick={downloadSelectedZips}>Download selected zips</button>
+            <div className="filter-controls spaced">
+                <Input type="select" name="gradingBatchId" formState={filterState} setter={setFilterState} options={gradingBatchIds} />
+                <Input name="userInfo" type="text" formState={filterState} setter={setFilterState} />
+                <Input type="checkbox" name="graded" formState={filterState} setter={setFilterState} />
+                <Input type="checkbox" name="ungraded" formState={filterState} setter={setFilterState} />
+                <Input type="checkbox" name="passing" formState={filterState} setter={setFilterState} />
+                <Input type="checkbox" name="failing" formState={filterState} setter={setFilterState} />
+            </div>
+            <Table records={filteredSubmissions} keys={ ["submissionId", "timeGraded", "timeCreated", "gradingBatch", "numberOfFailingTests", "numberOfPassingTests", "link", "userInfo"] } />
+            <button className="btn btn-primary" onClick={downloadSelectedZips}>Download selected zips</button>
         </>
     )
 }

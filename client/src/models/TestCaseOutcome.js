@@ -14,11 +14,11 @@ export default class TestCaseOutcome extends Record {
     }
 
     passed() {
-        return this.success ? "YES" : "NO"
+        return this.success ? "✅" : "❌"
     }
 
     manuallyEdited() {
-        return this.hasBeenManuallyEdited ? "YES" : "NO"
+        return this.hasBeenManuallyEdited ? "✅" : "❌"
     }
 
     board() {
@@ -28,7 +28,7 @@ export default class TestCaseOutcome extends Record {
         }
     }
 
-    markAsSuccessful() {
+    changeResult() {
         return <Link to={`/testCaseOutcomes/${this.testCaseOutcomeId}`}>Modify?</Link>
     }
 }

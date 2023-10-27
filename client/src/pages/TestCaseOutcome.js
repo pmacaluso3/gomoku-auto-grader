@@ -27,9 +27,11 @@ const TestCaseOutcome = () => {
     return (
         <>
             <Table records={[testCaseOutcome]} keys={["testName", "passed", "description", "board", "manuallyEdited"]}/>
-            <button onClick={() => updateTestCaseOutcome(true)}>Mark as passing</button>
-            <button onClick={() => updateTestCaseOutcome(false)}>Mark as failing</button>
-            <Link to={`/submissions/${testCaseOutcome.getValue("submissionId")}`}>Back to submission</Link>
+            <div className="spaced">
+                <button className="btn btn-success"onClick={() => updateTestCaseOutcome(true)}>Mark as passing</button>
+                <button className="btn btn-danger" onClick={() => updateTestCaseOutcome(false)}>Mark as failing</button>
+                <Link to={`/submissions/${testCaseOutcome.getValue("submissionId")}`}>Back to submission</Link>
+            </div>
         </>
     )
 }

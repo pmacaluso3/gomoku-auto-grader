@@ -21,7 +21,7 @@ public class JwtConverter {
     private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     // 2. "Configurable" constants
     private final String ISSUER = "applicant-submissions";
-    private final int EXPIRATION_MINUTES = 15;
+    private final int EXPIRATION_MINUTES = 60;
     private final int EXPIRATION_MILLIS = EXPIRATION_MINUTES * 60 * 1000;
 
     private final String BEARER_PREFIX = "Bearer ";

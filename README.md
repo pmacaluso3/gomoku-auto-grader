@@ -24,3 +24,6 @@ TODO:
     - deployment?
     - stable jwt secret
     - coming soon's from readme
+    - remove Grading Batches: frontend view, backend lookup methods
+    - frontend: move userInfo into Applicant model and use composite key to get it from submission
+    - timezone in formatDateTime

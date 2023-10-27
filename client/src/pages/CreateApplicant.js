@@ -35,7 +35,7 @@ const CreateApplicant = () => {
             <Errors errors={errors} />
             <form onSubmit={handleSubmit}>
                 <Input name="username" formState={formState} setter={setFormState} />
-            <button type="submit">Create!</button>
+            <button className="btn btn-primary" type="submit">Create!</button>
             </form>
         </>
     )

@@ -1,0 +1,19 @@
+.nav {
+    display: flex;
+}
+
+.filter-controls {
+    display: flex;
+    border: 1px solid darkgray;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+}
+
+.spaced div, .spaced a, .spaced button {
+    margin-right: 2rem;
+}
+
+.monospace {
+    font-family: monospace;
+}

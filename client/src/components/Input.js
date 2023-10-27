@@ -23,6 +23,7 @@ const Input = ({ name, type, formState, setter, options }) => {
         name,
         onChange,
         id,
+        className: type === "checkbox" ? "form-check-input" : "form-control"
     }
     if (type === "checkbox") {
         inputProps.checked = formState[name]
@@ -40,10 +41,10 @@ const Input = ({ name, type, formState, setter, options }) => {
     }
 
     return (
-        <fieldset className="form-group">
-            <label htmlFor={id}>{humanize(name)}:</label>
+        <div className={ type === "checkbox" ? "form-check" : "form-group"}>
+            <label className={ type === "checkbox" ? "form-check-label": null } htmlFor={id}>{humanize(name)}:</label>
             {tag}
-        </fieldset>
+        </div>
     )
 }
 
