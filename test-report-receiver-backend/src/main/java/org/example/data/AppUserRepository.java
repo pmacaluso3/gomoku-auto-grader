@@ -4,6 +4,7 @@ import org.example.models.AppUser;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AppUserRepository {
     @Transactional

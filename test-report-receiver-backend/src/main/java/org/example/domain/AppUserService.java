@@ -10,7 +10,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AppUserService implements UserDetailsService {
@@ -58,7 +61,7 @@ public class AppUserService implements UserDetailsService {
             appUser = repository.create(appUser);
             result.setPayload(appUser);
         } catch (DuplicateKeyException e) {
-            result.addErrorMessage("The provided username already exists", ResultType.INVALID);
+            result.addErrorMessage(String.format("Username %s already exists", appUser.getUsername()), ResultType.INVALID);
         }
 
         return result;
@@ -74,6 +77,21 @@ public class AppUserService implements UserDetailsService {
             }
         }
         return result;
+    }
+
+    public Map<String, List<String>> createBulk(List<String> usernames) {
+        Map<String, List<String>> output = new HashMap<>();
+        output.put("successes", new ArrayList<>());
+        output.put("failures", new ArrayList<>());
+        for (String username : usernames) {
+            Result<AppUser> result = create(username);
+            if (result.isSuccess()) {
+                output.get("successes").add(String.format("%s created successfully", username));
+            } else {
+                output.get("failures").add(result.getErrorMessages().get(0));
+            }
+        }
+        return output;
     }
 
     private Result<AppUser> validateForAccountSetup(AppUser appUser) {

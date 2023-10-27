@@ -1,6 +1,6 @@
 import humanize from "../utils/humanize"
 
-const Input = ({ name, type, formState, setter, options }) => {
+const Input = ({ name, type, formState, setter, options, style }) => {
     type = type || "text"
     if (name === "password") { type = "password" }
 
@@ -23,6 +23,7 @@ const Input = ({ name, type, formState, setter, options }) => {
         name,
         onChange,
         id,
+        style,
         className: type === "checkbox" ? "form-check-input" : "form-control"
     }
     if (type === "checkbox") {
@@ -36,6 +37,8 @@ const Input = ({ name, type, formState, setter, options }) => {
         tag = <select { ...inputProps }>
             { options.map(o => <option key={o} value={o}>{o}</option>)}
         </select>
+    } else if (type === "textarea") {
+        tag = <textarea { ...inputProps } />
     } else {
         tag = <input { ...inputProps } />
     }

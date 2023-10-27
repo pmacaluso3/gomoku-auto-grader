@@ -14,6 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,9 +67,10 @@ public class AppUserController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> create(@RequestBody Map<String, String> credentials) {
-        Result<AppUser> result = service.create(credentials.get("username"));
-        return ControllerHelper.convertResultToHttpResponse(result);
+    public ResponseEntity<Object> create(@RequestBody Map<String, String> usernames) {
+        List<String> listOfUsernames = List.of(usernames.get("usernames").split(","));
+        Map<String, List<String>> result = service.createBulk(listOfUsernames);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PutMapping("/account_setup")

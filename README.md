@@ -6,7 +6,7 @@ The goal of this project is to semi-automate the process of grading applicants' 
 These steps presume that `test-report-receiver-backend` has been deployed (along with its database), and `client` has been deployed and pointed at it.
 
 1. Applicants express interest to us, and send us their personal email that they want to submit an application from.
-1. Admin logs in and goes to Create Applicants, entering just the applicant's email. (Coming soon: bulk creation from csv)
+1. Admin logs in and goes to Create Applicants, entering just the applicant's email.
 1. Admin goes to All Applicants, filters for applicants who have not set up their account, and clicks Send Setup Emails. Notes on setting up email sending: https://www.tothenew.com/blog/step-by-step-guide-sending-emails-in-spring-boot/, https://knowledge.workspace.google.com/kb/how-to-generate-an-app-passwords-000009237
 1. Applicant gets a link that includes their setup token, and sets up their name & password at that link
 1. Applicant writes a gomoku solution and zips their App.java plus any other classes they wrote into a zip file (instructions coming soon). They go to Create Submission and upload the zip file. They can then see this submission (plus any previous ones) in My Submissions
@@ -24,3 +24,4 @@ TODO:
     - stable jwt secret
     - coming soon's from readme
     - timezone in formatDateTime
+    - track which applicants have had an email sent to them as well as hasBeenSetup

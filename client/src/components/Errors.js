@@ -1,6 +1,6 @@
-const Errors = ({ errors }) => {
+const Errors = ({ errors, className }) => {
     return (
-        <ul className="text-danger">
+        <ul className={ className || "text-danger" }>
             { errors.map(error => <li key={error}>{error}</li>)}
         </ul>
     )
