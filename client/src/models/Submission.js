@@ -5,7 +5,7 @@ import formatDateTime from "../utils/formatDateTime"
 import Applicant from "./Applicant"
 
 export default class Submission extends Record {
-    constructor({ submissionId, appUserId, gradingBatchId, createdAt, gradedAt, testCaseOutcomes, appUser }) {
+    constructor({ submissionId, appUserId, gradingBatchId, createdAt, gradedAt, testCaseOutcomes, appUser, archived }) {
         super()
         this.submissionId = submissionId
         this.appUserId = appUserId
@@ -14,6 +14,7 @@ export default class Submission extends Record {
         this.createdAt = createdAt
         this.gradedAt = gradedAt
         this.testCaseOutcomes = testCaseOutcomes
+        this.archived = archived
     }
 
     numberOfPassingTests() {
@@ -40,6 +41,10 @@ export default class Submission extends Record {
 
     timeCreated() {
         return formatDateTime(this.createdAt)
+    }
+
+    isArchived() {
+        return this.archived ? "✅" : "❌"        
     }
 
     link() {

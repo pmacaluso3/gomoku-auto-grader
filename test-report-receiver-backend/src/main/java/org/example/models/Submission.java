@@ -17,6 +17,16 @@ public class Submission {
     private int appUserId;
     private Blob zipFile;
     private int gradingBatchId;
+    private boolean archived;
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
+
     private Timestamp createdAt;
     private Timestamp gradedAt;
     private List<TestCaseOutcome> testCaseOutcomes = new ArrayList<>();

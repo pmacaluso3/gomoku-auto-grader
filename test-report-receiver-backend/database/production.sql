@@ -45,6 +45,7 @@ create table submission (
     app_user_id int not null,
     zip_file blob,
     grading_batch_id int,
+    archived boolean not null default false,
     created_at timestamp,
     graded_at timestamp,
     constraint fk_submission_app_user_id
@@ -71,7 +72,6 @@ create table test_case_outcome (
 insert into app_role (`name`) values
     ('ADMIN'),
     ('APPLICANT');
-
 
 insert into app_user (username, password_hash, enabled)
     values

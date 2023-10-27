@@ -12,7 +12,10 @@ import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -96,6 +99,30 @@ public class SubmissionService {
             result.addErrorMessage("Could not find submission", ResultType.NOT_FOUND);
         } else {
             result.setPayload(submission);
+        }
+        return result;
+    }
+
+    public Map<String, List<String>> bulkArchive(List<Integer> ids) {
+        Map<String, List<String>> output = new HashMap<>();
+        output.put("successes", new ArrayList<>());
+        output.put("failures", new ArrayList<>());
+        for (Integer id : ids) {
+            Result<Submission> result = archive(id);
+            if (result.isSuccess()) {
+                output.get("successes").add(String.format("Submission %s archived successfully", id));
+            } else {
+                output.get("failures").add(result.getErrorMessages().get(0));
+            }
+        }
+        return output;
+    }
+
+    private Result<Submission> archive(int id) {
+        Result<Submission> result = new Result<>();
+        boolean updateResult = repository.archive(id);
+        if (!updateResult) {
+            result.addErrorMessage(String.format("Could not archive submission %s", id), ResultType.NOT_FOUND);
         }
         return result;
     }

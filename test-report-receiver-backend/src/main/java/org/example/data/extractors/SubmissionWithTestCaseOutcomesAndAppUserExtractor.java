@@ -25,6 +25,7 @@ public class SubmissionWithTestCaseOutcomesAndAppUserExtractor implements Result
                 submission.setSubmissionId(rs.getInt("s.submission_id"));
                 submission.setAppUserId(rs.getInt("s.app_user_id"));
                 submission.setZipFile(rs.getBlob("s.zip_file"));
+                submission.setArchived(rs.getBoolean("archived"));
                 submission.setGradingBatchId(rs.getInt("s.grading_batch_id"));
                 submission.setCreatedAt(rs.getTimestamp("s.created_at"));
                 submission.setGradedAt(rs.getTimestamp("s.graded_at"));

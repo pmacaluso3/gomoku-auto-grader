@@ -18,4 +18,6 @@ public interface SubmissionRepository {
     public Submission create(Submission submission);
 
     public Submission markGraded(Submission submission);
+
+    public boolean archive(int id);
 }

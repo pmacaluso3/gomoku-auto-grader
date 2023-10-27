@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react"
 import UserContext from "../contexts/UserContext"
 import Table from "../components/Table"
 import Input from "../components/Input"
+import Errors from "../components/Errors"
 import Submission from "../models/Submission"
 
 const AllSubmissions = () => {
@@ -12,12 +13,15 @@ const AllSubmissions = () => {
         gradingBatchId: "",
         passing: false,
         failing: false,
-        userInfo: ""
+        userInfo: "",
+        includeArchived: false
     }
     const [allSubmissions, setAllSubmissions] = useState([])
     const [filteredSubmissions, setFilteredSubmissions] = useState([])
     const [filterState, setFilterState] = useState(DEFAULT_FILTERS_STATE)
     const [gradingBatchIds, setGradingBatchIds] = useState([])
+    const [errors, setErrors] = useState([])
+    const [successMessages, setSuccessMessages] = useState([])
     
     const userObj = useContext(UserContext)
 
@@ -54,8 +58,13 @@ const AllSubmissions = () => {
             newlyFilteredSubmissions = newlyFilteredSubmissions.filter(s => s.getValue("gradingBatch") === parseInt(filterState.gradingBatchId))
         }
         if (filterState.userInfo) {
-            newlyFilteredSubmissions = newlyFilteredSubmissions.filter(t => t.getValue("userInfo").includes(filterState.userInfo))
+            newlyFilteredSubmissions = newlyFilteredSubmissions.filter(s => s.getValue("userInfo").includes(filterState.userInfo))
         }
+
+        if (!filterState.includeArchived) {
+            newlyFilteredSubmissions = newlyFilteredSubmissions.filter(s => !s.getValue("archived"))
+        }
+
         setFilteredSubmissions(newlyFilteredSubmissions)
     }
     useEffect(applyFilters, [allSubmissions, filterState])
@@ -75,6 +84,29 @@ const AllSubmissions = () => {
         })
     }
 
+    const archiveSelectedSubmissions = () => {
+        const ids = filteredSubmissions.map(s => s.submissionId).join(",")
+        
+        if (!window.confirm(`Are you sure you want to archive: ${ids}?`)) return
+
+        userObj.authPut(`/submissions/bulk_archive/${ids}`)
+        .then(response => {
+            if (response.ok) {
+                response.json().then(results => {
+                    setErrors(results.failures)
+                    setSuccessMessages(results.successes)
+                    fetchSubmissions()
+                    setFilterState(DEFAULT_FILTERS_STATE)
+                })
+            } else {
+                response.json().then(errors => {
+                    setErrors(errors)
+                    setSuccessMessages([])
+                })
+            }
+        })
+    }
+
     return (
         <>
             <h3>All Submissions</h3>
@@ -85,9 +117,15 @@ const AllSubmissions = () => {
                 <Input type="checkbox" name="ungraded" formState={filterState} setter={setFilterState} />
                 <Input type="checkbox" name="passing" formState={filterState} setter={setFilterState} />
                 <Input type="checkbox" name="failing" formState={filterState} setter={setFilterState} />
+                <Input type="checkbox" name="includeArchived" formState={filterState} setter={setFilterState} />
             </div>
-            <Table records={filteredSubmissions} keys={ ["submissionId", "timeGraded", "timeCreated", "gradingBatch", "numberOfFailingTests", "numberOfPassingTests", "link", "userInfo"] } />
-            <button className="btn btn-primary" onClick={downloadSelectedZips}>Download selected zips</button>
+            <Errors errors={errors} />
+            <Errors errors={successMessages} className="text-success" />
+            <Table records={filteredSubmissions} keys={ ["submissionId", "timeGraded", "timeCreated", "gradingBatch", "numberOfFailingTests", "numberOfPassingTests", "link", "userInfo", "isArchived"] } />
+            <div className="spaced">
+                <button className="btn btn-primary" onClick={downloadSelectedZips}>Download selected zips</button>
+                <button className="btn btn-danger" onClick={archiveSelectedSubmissions}>Archive selected submissions</button>
+            </div>
         </>
     )
 }

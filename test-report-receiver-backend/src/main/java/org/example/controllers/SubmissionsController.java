@@ -8,6 +8,7 @@ import org.example.models.AppUser;
 import org.example.models.Submission;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +21,7 @@ import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -79,6 +81,12 @@ public class SubmissionsController {
     public ResponseEntity<Object> markGraded(@RequestBody Submission submission) {
         Result<Submission> result = service.markGraded(submission);
         return ControllerHelper.convertResultToHttpResponse(result);
+    }
+
+    @PutMapping("/bulk_archive/{ids}")
+    public ResponseEntity<Object> bulkArchive(@PathVariable List<Integer> ids) {
+        Map<String, List<String>> result = service.bulkArchive(ids);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     private String getAuthorizedUsername() {

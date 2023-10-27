@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.PUT, "/api/submissions/mark_graded").hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/submissions").hasAnyAuthority("APPLICANT")
                 .antMatchers(HttpMethod.GET, "/api/submissions/zip_files/*").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/submissions/bulk_archive/*").hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/test_case_outcomes/*").hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/test_case_outcomes").hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/test_case_outcomes").hasAnyAuthority("ADMIN")

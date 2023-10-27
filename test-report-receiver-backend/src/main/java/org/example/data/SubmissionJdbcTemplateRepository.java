@@ -99,4 +99,10 @@ public class SubmissionJdbcTemplateRepository implements SubmissionRepository {
         return jdbcTemplate.query(confirmationSql, new SubmissionMapper(), submission.getSubmissionId())
                 .stream().findFirst().orElse(null);
     }
+
+    @Override
+    public boolean archive(int id) {
+        String sql = "update submission set archived = true where submission_id = ?";
+        return jdbcTemplate.update(sql, id) > 0;
+    }
 }
