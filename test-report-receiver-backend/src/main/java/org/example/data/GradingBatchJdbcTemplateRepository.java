@@ -33,7 +33,7 @@ public class GradingBatchJdbcTemplateRepository implements GradingBatchRepositor
 
     @Override
     public GradingBatch create(GradingBatch gradingBatch) {
-        final String sql = "insert into grading_batch () values ()";
+        final String sql = "insert into grading_batch (created_at) values (current_timestamp())";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {

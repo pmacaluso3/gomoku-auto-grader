@@ -33,12 +33,12 @@ const AllSubmissions = () => {
     useEffect(fetchSubmissions, [])
 
     const getGradingBatchIdsFromSubmissions = () => {
-        const ids = allSubmissions.map(s => s.getValue("gradingBatchId"))
+        const ids = filteredSubmissions.map(s => s.getValue("gradingBatchId"))
         const idsWithBlank = ["", ...ids]
         const uniqueIds = Array.from(new Set(idsWithBlank)).filter(i => i !== 0)
         setGradingBatchIds(uniqueIds)
     }
-    useEffect(getGradingBatchIdsFromSubmissions, [allSubmissions])
+    useEffect(getGradingBatchIdsFromSubmissions, [filteredSubmissions])
 
     const applyFilters = () => {
         let newlyFilteredSubmissions = [...allSubmissions]

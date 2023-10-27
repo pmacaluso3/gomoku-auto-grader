@@ -15,7 +15,7 @@ These steps presume that `test-report-receiver-backend` has been deployed (along
 1. In All Submission, admin can now see that the submission has been graded: it has a `gradedAt`, and numbers of passing & failing tests. Click `Inspect` to look at the individual test cases.
 1. Admin can Modify a test case if they think that the outcome isn't representative: for example, the applicant's submission handles player selection just fine but expects you to hit enter twice after entering the player name, while the test suite only expects one press. Note that an individual test case outcome records whether it has been manually edited or not.
 1. Some tests report their final board state for visual inspection. These don't contain any assertions, so they will always start off in the passing state. Admin can look at those and mark them as failed if they don't look right. If desired, more tests could report their board state in addition to their pass/fail value.
-1. Once manual review is done, admin can export the list of passing applicants (coming soon) and archive the old submissions (coming soon).
+1. Once manual review is done, admin can export the list of passing applicants (coming soon) and archive the old submissions.
 1. Admin should run `node scripts/cleanup.js` to clean out the temp directories within this local repo.
 
 
