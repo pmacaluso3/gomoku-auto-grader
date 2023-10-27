@@ -20,7 +20,7 @@ These steps presume that `test-report-receiver-backend` has been deployed (along
 
 
 TODO:
-    - deployment?
+    - deployment
     - stable jwt secret
     - coming soon's from readme
     - timezone in formatDateTime

@@ -35,9 +35,9 @@ class AppTest {
     class PlayerSelection {
         @Test
         void selectPlayersHumanVsHuman(TestInfo testInfo) {
-            Gomoku game = loadScript("playerSelection/selectPlayersHumanVsHuman");
-
             reportHelper.reportTestCases((unused) -> {
+                Gomoku game = loadScript("playerSelection/selectPlayersHumanVsHuman");
+
                 assertEquals(HumanPlayer.class, game.getPlayerOne().getClass());
                 assertEquals(HumanPlayer.class, game.getPlayerTwo().getClass());
                 assertEquals("Player1", game.getPlayerOne().getName());
@@ -47,9 +47,9 @@ class AppTest {
 
         @Test
         void selectPlayersHumanVsRandom(TestInfo testInfo) {
-            Gomoku game = loadScript("playerSelection/selectPlayersHumanVsRandom");
-
             reportHelper.reportTestCases((unused) -> {
+                Gomoku game = loadScript("playerSelection/selectPlayersHumanVsRandom");
+
                 assertEquals(HumanPlayer.class, game.getPlayerOne().getClass());
                 assertEquals(RandomPlayer.class, game.getPlayerTwo().getClass());
                 assertEquals("Player1", game.getPlayerOne().getName());
@@ -58,9 +58,9 @@ class AppTest {
 
         @Test
         void selectPlayersRandomVsHuman(TestInfo testInfo) {
-            Gomoku game = loadScript("playerSelection/selectPlayersRandomVsHuman");
-
             reportHelper.reportTestCases((unused) -> {
+                Gomoku game = loadScript("playerSelection/selectPlayersRandomVsHuman");
+
                 assertEquals(RandomPlayer.class, game.getPlayerOne().getClass());
                 assertEquals(HumanPlayer.class, game.getPlayerTwo().getClass());
                 assertEquals("Player2", game.getPlayerTwo().getName());
@@ -69,9 +69,9 @@ class AppTest {
 
         @Test
         void selectPlayersRandomVsRandom(TestInfo testInfo) {
-            Gomoku game = loadScript("playerSelection/selectPlayersRandomVsRandom");
-
             reportHelper.reportTestCases((unused) -> {
+                Gomoku game = loadScript("playerSelection/selectPlayersRandomVsRandom");
+
                 assertEquals(RandomPlayer.class, game.getPlayerOne().getClass());
                 assertEquals(RandomPlayer.class, game.getPlayerTwo().getClass());
             }, testInfo);
@@ -84,9 +84,9 @@ class AppTest {
         void validHumanMove(TestInfo testInfo) {
             ByteArrayOutputStream stdout = captureStdOut();
 
-            Gomoku game = loadScript("singleMoves/validHumanMove");
-
             reportHelper.reportTestCases((unused) -> {
+                Gomoku game = loadScript("singleMoves/validHumanMove");
+
                 assertTrue(game.getStones().get(0).getRow() == 0 && game.getStones().get(0).getColumn() == 0);
                 assertFalse(stdout.toString().contains(Gomoku.OFF_BOARD_MESSAGE));
                 assertFalse(stdout.toString().contains(Gomoku.DUPLICATE_MOVE_MESSAGE));
@@ -97,9 +97,9 @@ class AppTest {
         void offBoardHumanMove(TestInfo testInfo) {
             ByteArrayOutputStream stdout = captureStdOut();
 
-            Gomoku game = loadScript("singleMoves/offBoardHumanMove");
-
             reportHelper.reportTestCases((unused) -> {
+                Gomoku game = loadScript("singleMoves/offBoardHumanMove");
+
                 assertTrue(game.getStones().isEmpty());
                 assertTrue(stdout.toString().contains(Gomoku.OFF_BOARD_MESSAGE));
                 assertFalse(stdout.toString().contains(Gomoku.DUPLICATE_MOVE_MESSAGE));
@@ -110,9 +110,9 @@ class AppTest {
         void duplicateHumanMove(TestInfo testInfo) {
             ByteArrayOutputStream stdout = captureStdOut();
 
-            Gomoku game = loadScript("singleMoves/duplicateHumanMove");
-
             reportHelper.reportTestCases((unused) -> {
+                Gomoku game = loadScript("singleMoves/duplicateHumanMove");
+
                 assertEquals(1, game.getStones().size());
                 assertTrue(game.getStones().get(0).getRow() == 0 && game.getStones().get(0).getColumn() == 0);
                 assertTrue(stdout.toString().contains(Gomoku.DUPLICATE_MOVE_MESSAGE));
@@ -124,9 +124,9 @@ class AppTest {
         void twoHumanMoves(TestInfo testInfo) {
             ByteArrayOutputStream stdout = captureStdOut();
 
-            Gomoku game = loadScript("singleMoves/twoHumanMoves");
-
             reportHelper.reportTestCases((unused) -> {
+                Gomoku game = loadScript("singleMoves/twoHumanMoves");
+
                 assertEquals(2, game.getStones().size());
                 assertTrue(game.getStones().get(0).getRow() == 0 && game.getStones().get(0).getColumn() == 0);
                 assertTrue(game.getStones().get(1).getRow() == 1 && game.getStones().get(0).getColumn() == 0);
@@ -166,9 +166,9 @@ class AppTest {
     class FullGames {
         @Test
         void humanVsHumanSingleGame(TestInfo testInfo) {
-            Gomoku game = loadScript("fullGames/humanVsHumanSingleGame");
-
             reportHelper.reportTestCases((unused) -> {
+                Gomoku game = loadScript("fullGames/humanVsHumanSingleGame");
+
                 assertEquals(9, game.getStones().size());
                 assertEquals(5, game.getStones().stream().filter(s -> s.isBlack()).collect(Collectors.toList()).size());
                 assertEquals(4, game.getStones().stream().filter(s -> !s.isBlack()).collect(Collectors.toList()).size());
@@ -178,9 +178,9 @@ class AppTest {
 
         @Test
         void humanVsHumanRematch(TestInfo testInfo) {
-            Gomoku game = loadScript("fullGames/humanVsHumanRematch");
-
             reportHelper.reportTestCases((unused) -> {
+                Gomoku game = loadScript("fullGames/humanVsHumanRematch");
+
                 assertFalse(game.isOver());
             }, testInfo);
         }
@@ -189,9 +189,9 @@ class AppTest {
         void humanVsRandomSingleGame(TestInfo testInfo) {
             RandomPlayer.random = new Random(SEED);
 
-            Gomoku game = loadScript("fullGames/humanVsRandomSingleGame");
-
             reportHelper.reportTestCases((unused) -> {
+                Gomoku game = loadScript("fullGames/humanVsRandomSingleGame");
+
                 assertTrue(game.getStones().size() == 9 || game.getStones().size() == 10);
                 assertTrue(game.isOver());
                 assertEquals(game.getWinner(), game.getPlayerOne());
@@ -200,29 +200,29 @@ class AppTest {
 
         @Test
         void humanVsRandomRematch(TestInfo testInfo) {
-            Gomoku game = loadScript("fullGames/humanVsRandomRematch");
-
             reportHelper.reportTestCases((unused) -> {
+                Gomoku game = loadScript("fullGames/humanVsRandomRematch");
+
                 assertFalse(game.isOver());
             }, testInfo);
         }
 
         @Test
         void randomVsRandomSingleGame(TestInfo testInfo) {
-            Gomoku game = loadScript("fullGames/randomVsRandomSingleGame");
-
             reportHelper.reportTestCases((unused) -> {
+                Gomoku game = loadScript("fullGames/randomVsRandomSingleGame");
+
                 assertTrue(game.isOver());
             }, testInfo);
         }
 
         @Test
         void randomVsRandomRematch(TestInfo testInfo) {
-            Gomoku game = loadScript("fullGames/randomVsRandomRematch");
-
             // if rematch is also randomVsRandom, no way to tell if the game is over because the first game ended
             // or if it's over because the second game also ended
             reportHelper.reportTestCases((unused) -> {
+                Gomoku game = loadScript("fullGames/randomVsRandomRematch");
+
                 assertFalse(game.isOver());
             }, testInfo);
         }
