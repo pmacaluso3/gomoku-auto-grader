@@ -9,7 +9,7 @@ export default class Submission extends Record {
         super()
         this.submissionId = submissionId
         this.appUserId = appUserId
-        this.appUser = new Applicant(appUser)  
+        this.appUser = new Applicant(appUser || {})  
         this.gradingBatchId = gradingBatchId
         this.createdAt = createdAt
         this.gradedAt = gradedAt

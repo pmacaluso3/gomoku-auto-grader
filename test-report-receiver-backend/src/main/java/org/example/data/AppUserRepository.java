@@ -11,6 +11,8 @@ public interface AppUserRepository {
 
     List<AppUser> findAllApplicants();
 
+    List<AppUser> findWhereIdInList(List<Integer> ids);
+
     @Transactional
     AppUser create(AppUser user);
 

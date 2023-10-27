@@ -1,6 +1,7 @@
 package org.example.controllers;
 
 import org.example.domain.AppUserService;
+import org.example.domain.EmailService;
 import org.example.domain.Result;
 import org.example.models.AppUser;
 import org.example.security.JwtConverter;
@@ -25,11 +26,13 @@ public class AppUserController {
     private final JwtConverter converter;
 
     private final AppUserService service;
+    private final EmailService emailService;
 
-    public AppUserController(AuthenticationManager authenticationManager, JwtConverter converter, AppUserService service) {
+    public AppUserController(AuthenticationManager authenticationManager, JwtConverter converter, AppUserService service, EmailService emailService) {
         this.authenticationManager = authenticationManager;
         this.converter = converter;
         this.service = service;
+        this.emailService = emailService;
     }
 
     @GetMapping("/applicants")
@@ -72,5 +75,15 @@ public class AppUserController {
     public ResponseEntity<Object> accountSetup(@RequestBody AppUser appUser) {
         Result<AppUser> result = service.accountSetup(appUser);
         return ControllerHelper.convertResultToHttpResponse(result);
+    }
+
+    @PostMapping("/send_setup_emails/{ids}")
+    public ResponseEntity<Object> sendSetupEmails(@PathVariable List<Integer> ids) {
+        try {
+            emailService.sendSetupEmailsToUsers(ids);
+            return new ResponseEntity<>("ok", HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(List.of(ex.getMessage()), HttpStatus.BAD_REQUEST);
+        }
     }
 }

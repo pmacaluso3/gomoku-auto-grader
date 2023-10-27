@@ -1,6 +1,7 @@
 package org.example.data;
 
 import org.example.data.mappers.AppUserMapper;
+import org.example.data.mappers.SubmissionMapper;
 import org.example.models.AppUser;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -44,6 +46,13 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
                 "where ar.name = 'APPLICANT'";
 
         return jdbcTemplate.query(sql, new AppUserMapper(List.of("APPLICANT")));
+    }
+
+    @Override
+    public List<AppUser> findWhereIdInList(List<Integer> ids) {
+        String placeholders = String.join(",", Collections.nCopies(ids.size(), "?"));
+        String sql = String.format("select * from app_user where app_user_id in (%s)", placeholders);
+        return jdbcTemplate.query(sql, new AppUserMapper(List.of("APPLICANT")), ids.toArray());
     }
 
     @Override

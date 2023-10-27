@@ -30,7 +30,7 @@ const Nav = () => {
                     {/* // logged in admin only */}
                     <LoggedInLink to="/createApplicant" text="Create Applicant" requiredRole="ADMIN" />
                     <LoggedInLink to="/allApplicants" text="All Applicants" requiredRole="ADMIN" />
-                    <LoggedInLink to="/gradingBatches" text="GradingBatches" requiredRole="ADMIN" />
+                    <LoggedInLink to="/gradingBatches" text="Grading Batches" requiredRole="ADMIN" />
                     <LoggedInLink to="/allSubmissions" text="All Submissions" requiredRole="ADMIN" />
 
                     {/* // logged in applicant only */}

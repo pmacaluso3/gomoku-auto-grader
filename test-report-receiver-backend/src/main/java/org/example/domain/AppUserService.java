@@ -1,12 +1,9 @@
 package org.example.domain;
 
 import org.example.data.AppUserRepository;
-import org.example.domain.ResultType;
-import org.example.domain.Result;
 import org.example.models.AppUser;
 import org.example.util.RandomStringGenerator;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
