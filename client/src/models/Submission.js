@@ -2,13 +2,14 @@ import { Link } from "react-router-dom"
 
 import Record from "./Record"
 import formatDateTime from "../utils/formatDateTime"
+import Applicant from "./Applicant"
 
 export default class Submission extends Record {
     constructor({ submissionId, appUserId, gradingBatchId, createdAt, gradedAt, testCaseOutcomes, appUser }) {
         super()
         this.submissionId = submissionId
         this.appUserId = appUserId
-        this.appUser = appUser        
+        this.appUser = new Applicant(appUser)  
         this.gradingBatchId = gradingBatchId
         this.createdAt = createdAt
         this.gradedAt = gradedAt
@@ -30,7 +31,7 @@ export default class Submission extends Record {
     }
 
     userInfo() {
-        return this.appUser && `${this.appUser.firstName} ${this.appUser.lastName} (username: ${this.appUser.username}, id: ${this.appUser.appUserId})`
+        return this.appUser && this.appUser.userInfo()
     }
 
     timeGraded() {

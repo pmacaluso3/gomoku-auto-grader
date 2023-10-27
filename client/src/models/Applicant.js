@@ -14,4 +14,8 @@ export default class Applicant extends Record {
     setupComplete() {
         return this.hasBeenSetup ? "✅" : "❌"
     }
+
+    userInfo() {
+        return `${this.firstName} ${this.lastName} (username: ${this.username}, id: ${this.appUserId})`
+    }
 }
