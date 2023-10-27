@@ -72,7 +72,7 @@ create table test_case_outcome (
 insert into app_role (`name`) values
     ('ADMIN'),
     ('APPLICANT');
-
+    
 insert into app_user (username, password_hash, enabled)
     values
     ('admin@dev-10.com', '$2a$10$WZPggZQdJ7li5N/x1AwQ3eJo73pzV2803CUoIaGJ4e965pW49c0Y2', 1); -- pw == admin
