@@ -46,6 +46,7 @@ const Input = ({ name, type, formState, setter, options, style }) => {
     return (
         <div className={ type === "checkbox" ? "form-check" : "form-group"}>
             <label className={ type === "checkbox" ? "form-check-label": null } htmlFor={id}>{humanize(name)}:</label>
+            <br/>
             {tag}
         </div>
     )
